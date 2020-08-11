@@ -1,0 +1,170 @@
+---
+title: Visualization of Volcano Plots in R
+author: Samuel David Gamboa-Tuz
+date: '2020-08-09'
+description: A short tutorial about how to make volcano plots in R.
+slug: visualizing-volcano-plots-in-r
+tags: 
+  - Data visualization
+  - Gene expression
+  - R
+  - Rstats
+  - Tutorial
+draft: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+A **volcano plot** is a type of scatter plot commonly used in biology research to represent changes in the expression of hundreds or thousands of genes between samples. It's the graphical representation of a differental expression analysis, which can be done with tools like EdgeR or DESeq2. Volcano plots indicate the **fold change** (either positive or negative) in the x axis and a **significance value** (such as the p-value or the adjusted p-value, i.e. FDR) in the y axis. Points represent individual genes and can be labeled or colored according to some attribute, such as whether they are up- or down-regulated, a significance threshold, etc.
+
+In this post I'll go through a step-by-step simple tutorial for the visualization of volcano plots in **R** using tools from the **tidyverse**, such as **dplyr**, **tidyr**, and **ggplot2**. I assume the reader already knows the basics of R and has some familiarity with the tidyverse package.
+
+## R packages and data
+
+In addition to the tidyverse package, I'll load the **ggrepel** package to aid in the labeling of the genes. The example data comes from a [research article](https://doi.org/10.1038/s41598-018-32904-2) and can be found [here](https://raw.githubusercontent.com/sdgamboa/misc_datasets/master/L0_vs_L20.tsv).
+
+Let's load the packages and import the data:
+
+```{r Load packages, message=FALSE}
+# The packages can be installed within R with:
+# intstall.packages(c("tidyverse", "ggrepel"))
+
+# Load packages
+library(tidyverse)
+library(ggrepel)
+
+# Import data
+data <- read_tsv("https://raw.githubusercontent.com/sdgamboa/misc_datasets/master/L0_vs_L20.tsv")
+data
+```
+
+The data contains four columns and 20,945 rows. Each row represents a gene. The column 'Genes' contains the sequence names of each gene. The 'logFC' column contains the logarithm base 2 (log2) of the fold change of each gene; up-regulated genes are positive, down-regulated genes are negative. The 'PValue' and 'FDR' columns contain the significance values; these must be converted to the negative of their logarithm base 10 before plotting, i.e -log10(p-value) or -log10(FDR). I'll use the -log10(FDR) in this post.
+
+## A simple volcano plot
+
+Since volacno plots are scatter plots, we can use `geom_point()` to generate one with ggplot2. The conversion of the FDR values to their -log10 can be done at this step:
+
+```{r plot 1, fig.width=8, fig.align='center'}
+p1 <- ggplot(data, aes(logFC, -log(FDR,10))) + # -log10 conversion  
+  geom_point(size = 2/5) +
+  xlab(expression("log"[2]*"FC")) + 
+  ylab(expression("-log"[10]*"FDR"))
+p1
+```
+
+
+The dispersion of the points (representing genes) in the plot is similar to, you guessed, a volcano (that's why they're called volcano plots). Since the FDR values were transformed to their -log10, the higher the position of a point, the more significant its value is (y axis). Points with positive fold change values (to the right) are up-regulated and points with negative fold change values (to the left) are down-regulated (x axis).
+
+## Coloring differentially expressed genes (DEGs)
+
+Differentially expressed genes (DEGs) are usally considered as those with an absolute fold change greater or equal to 2 and a FDR value of 0.05 or less. So, we can make our volcano plot a bit more informative if we add some color to the DEGs in the plot. To do so, we'll add an additional column, named 'Expression', indicating whether the expression of a gene is up-regulated, down-regulated, or unchanged: 
+
+```{r}
+data <- data %>% 
+  mutate(
+    Expression = case_when(logFC >= log(2) & FDR <= 0.05 ~ "Up-regulated",
+                           logFC <= -log(2) & FDR <= 0.05 ~ "Down-regulated",
+                           TRUE ~ "Unchanged")
+    )
+data
+```
+
+We can now map the column ´Expression' to the color aesthetic of `geom_point()` to color the points according to their expression classification:
+
+```{r, fig.width=8, fig.align='center'}
+p2 <- ggplot(data, aes(logFC, -log(FDR,10))) +
+  geom_point(aes(color = Expression), size = 2/5) +
+  xlab(expression("log"[2]*"FC")) + 
+  ylab(expression("-log"[10]*"FDR")) +
+  scale_color_manual(values = c("dodgerblue3", "gray50", "firebrick3")) +
+  guides(colour = guide_legend(override.aes = list(size=1.5))) 
+p2
+```
+
+
+If we want to know how many genes are up- or down-regulated, or unchanged, we can use dplyr's `count()` function.
+
+```{r}
+data %>% 
+  count(Expression)
+```
+
+Since we already know that the genes towards the right are up-regulated and the genes towards the left are down-regulated, it would be more informative if we colored the points according to their significance level instead. Let's create another column, named 'Significance' and classify the genes according to significance thresholds (0.05, 0.01, and 0.001):
+
+```{r}
+data <- data %>% 
+  mutate(
+    Significance = case_when(
+      abs(logFC) >= log(2) & FDR <= 0.05 & FDR > 0.01 ~ "FDR 0.05", 
+      abs(logFC) >= log(2) & FDR <= 0.01 & FDR > 0.001 ~ "FDR 0.01",
+      abs(logFC) >= log(2) & FDR <= 0.001 ~ "FDR 0.001", 
+      TRUE ~ "Unchanged")
+  )
+data
+```
+
+Again, we can use the color aesthetic to map the color of the points to their corresponding significance thresholds:
+
+```{r}
+p3 <- ggplot(data, aes(logFC, -log(FDR,10))) +
+  geom_point(aes(color = Significance), size = 2/5) +
+  xlab(expression("log"[2]*"FC")) + 
+  ylab(expression("-log"[10]*"FDR")) +
+  scale_color_viridis_d() +
+  guides(colour = guide_legend(override.aes = list(size=1.5))) 
+
+p3
+```
+
+And we can count how many genes are up- or down-regulated according to the different significance thresholds with `count()`:
+
+```{r}
+data %>% 
+  count(Expression, Significance)
+```
+
+## Adding labels to selected genes
+
+If we labeled all of the genes, we'd end with a plot with overcrowded labels that wouldn't be possible to read. So, we could opt for labeling only the top n genes or a specific subset of them. For example:
+
+
+```{r}
+top <- 10
+top_genes <- bind_rows(
+  data %>% 
+    filter(Expression == 'Up-regulated') %>% 
+    arrange(FDR, desc(abs(logFC))) %>% 
+    head(top),
+  data %>% 
+    filter(Expression == 'Down-regulated') %>% 
+    arrange(FDR, desc(abs(logFC))) %>% 
+    head(top)
+)
+top_genes
+
+p3 <-  p3 +
+  geom_label_repel(data = top_genes,
+                   mapping = aes(logFC, -log(FDR,10), label = Genes),
+                   size = 2)
+p3
+
+```
+
+So, only the top 10 up- and down-regulated genes are labeled, avoiding overcrowding. 
+
+
+## Conclusion
+
+In this post we applied two different color schemes on a volcano plot and labeled a few genes using the tools of the tidyverse. There are other resources out there to generate volcano plots in R. For example, [EnhancedVolcano](https://www.bioconductor.org/packages/release/bioc/vignettes/EnhancedVolcano/inst/doc/EnhancedVolcano.html#introduction), which uses ggplot2 and ggrepel as dependecies, has some features to automatically address label overcrowding in volcano plots (I haven't tried this package yet, though). 
+
+## Info Session
+```{r}
+info <- sessionInfo()
+toLatex(info, locale = FALSE)
+
+```
+

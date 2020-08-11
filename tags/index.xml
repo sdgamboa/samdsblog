@@ -1,32 +1,59 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on My Test Blog</title>
+    <title>Tags on Samuel&#39;s Bioinformatics and Data Science Blog</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on My Test Blog</description>
+    <description>Recent content in Tags on Samuel&#39;s Bioinformatics and Data Science Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Samuel D. Gamboa-Tuz, 2020</copyright>
-    <lastBuildDate>Wed, 18 Mar 2020 02:01:58 +0530</lastBuildDate>
+    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Primer</title>
-      <link>/tags/primer/</link>
-      <pubDate>Wed, 18 Mar 2020 02:01:58 +0530</pubDate>
+      <title>Data visualization</title>
+      <link>/tags/data-visualization/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/primer/</guid>
+      <guid>/tags/data-visualization/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>todo</title>
-      <link>/tags/todo/</link>
-      <pubDate>Wed, 18 Mar 2020 02:01:58 +0530</pubDate>
+      <title>Gene expression</title>
+      <link>/tags/gene-expression/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/todo/</guid>
+      <guid>/tags/gene-expression/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rstats</title>
+      <link>/tags/rstats/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/rstats/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tutorial</title>
+      <link>/tags/tutorial/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/tutorial/</guid>
       <description></description>
     </item>
     

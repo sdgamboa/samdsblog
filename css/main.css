@@ -4,6 +4,7 @@ body {
     color: #333;
     line-height: 1.6;
     font-size: 16px;
+    background-color: #fff
 }
 
 a, a:hover {
@@ -188,7 +189,7 @@ ul {
 
 .highlight {
     background: 0 0;
-    background-color: #FAFAFA;
+    background-color: #ededed;
 }
 
 pre code {
