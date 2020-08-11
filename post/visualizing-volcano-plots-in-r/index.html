@@ -124,7 +124,7 @@ data
 ##  9 127_41   7.95 1.45e-49 3.38e-46 Up-regulated  
 ## 10 31_39    7.72 1.42e-47 2.97e-44 Up-regulated  
 ## # … with 20,935 more rows
-</code></pre></div><p>We can now map the column ´Expression&rsquo; to the color aesthetic of <code>geom_point()</code> to color the points according to their expression classification:</p>
+</code></pre></div><p>We can now map the column ´Expression&rsquo; to the color aesthetic of <code>geom_point()</code>, and color the points according to their expression classification:</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p2 <span style="color:#666">&lt;-</span> <span style="color:#06287e">ggplot</span>(data, <span style="color:#06287e">aes</span>(logFC, <span style="color:#666">-</span><span style="color:#06287e">log</span>(FDR,<span style="color:#40a070">10</span>))) <span style="color:#666">+</span>
   <span style="color:#06287e">geom_point</span>(<span style="color:#06287e">aes</span>(color <span style="color:#666">=</span> Expression), size <span style="color:#666">=</span> <span style="color:#40a070">2</span><span style="color:#666">/</span><span style="color:#40a070">5</span>) <span style="color:#666">+</span>
   <span style="color:#06287e">xlab</span>(<span style="color:#06287e">expression</span>(<span style="color:#4070a0">&#34;log&#34;</span>[2]<span style="color:#666">*</span><span style="color:#4070a0">&#34;FC&#34;</span>)) <span style="color:#666">+</span> 
@@ -190,7 +190,7 @@ p3
 ## 6 Up-regulated   FDR 0.01       484
 ## 7 Up-regulated   FDR 0.05       786
 </code></pre></div><h2 id="adding-labels-to-selected-genes">Adding labels to selected genes</h2>
-<p>If we labeled all of the genes, we&rsquo;d end with a plot with overcrowded labels that wouldn&rsquo;t be possible to read. So, we could opt for labeling only the top n genes or a specific subset of them. For example:</p>
+<p>If we labeled all of the genes, we&rsquo;d end up with a plot with overcrowded labels that wouldn&rsquo;t be possible to read. So, we could opt for labeling only the top n genes or a specific subset of them. For example:</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">top <span style="color:#666">&lt;-</span> <span style="color:#40a070">10</span>
 top_genes <span style="color:#666">&lt;-</span> <span style="color:#06287e">bind_rows</span>(
   data <span style="color:#666">%&gt;%</span> 

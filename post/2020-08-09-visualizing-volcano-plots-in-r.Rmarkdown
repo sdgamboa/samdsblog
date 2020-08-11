@@ -73,7 +73,7 @@ data <- data %>%
 data
 ```
 
-We can now map the column ´Expression' to the color aesthetic of `geom_point()` to color the points according to their expression classification:
+We can now map the column ´Expression' to the color aesthetic of `geom_point()`, and color the points according to their expression classification:
 
 ```{r, fig.width=8, fig.align='center'}
 p2 <- ggplot(data, aes(logFC, -log(FDR,10))) +
@@ -129,7 +129,7 @@ data %>%
 
 ## Adding labels to selected genes
 
-If we labeled all of the genes, we'd end with a plot with overcrowded labels that wouldn't be possible to read. So, we could opt for labeling only the top n genes or a specific subset of them. For example:
+If we labeled all of the genes, we'd end up with a plot with overcrowded labels that wouldn't be possible to read. So, we could opt for labeling only the top n genes or a specific subset of them. For example:
 
 
 ```{r}
