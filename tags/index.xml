@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Samuel&#39;s Bioinformatics and Data Science Blog</title>
+    <title>Tags on Samuel&#39;s Blog</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on Samuel&#39;s Bioinformatics and Data Science Blog</description>
+    <description>Recent content in Tags on Samuel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Samuel D. Gamboa-Tuz, 2020</copyright>
@@ -11,6 +11,15 @@
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Bioinformatics</title>
+      <link>/tags/bioinformatics/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/bioinformatics/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Data visualization</title>
@@ -54,6 +63,33 @@
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Experience</title>
+      <link>/tags/experience/</link>
+      <pubDate>Sat, 03 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/experience/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mexico</title>
+      <link>/tags/mexico/</link>
+      <pubDate>Sat, 03 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/mexico/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Workshop</title>
+      <link>/tags/workshop/</link>
+      <pubDate>Sat, 03 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/workshop/</guid>
       <description></description>
     </item>
     

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Samuel&#39;s Blog</title>
+    <link>/authors/samuel-david-gamboa-tuz/</link>
+    <description>Recent content on Samuel&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Samuel D. Gamboa-Tuz, 2020</copyright>
+    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/authors/samuel-david-gamboa-tuz/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Visualization of Volcano Plots in R</title>
+      <link>/post/visualizing-volcano-plots-in-r/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/visualizing-volcano-plots-in-r/</guid>
+      <description>Introduction A volcano plot is a type of scatter plot commonly used in biology research to represent changes in the expression of hundreds or thousands of genes between samples. It&amp;rsquo;s the graphical representation of a differental expression analysis, which can be done with tools like EdgeR or DESeq2. Volcano plots indicate the fold change (either positive or negative) in the x axis and a significance value (such as the p-value or the adjusted p-value, i.</description>
+    </item>
+    
+    <item>
+      <title>My Experience at the CDSB Workshop 2019</title>
+      <link>/post/my-experience-at-the-cdsb-workshop-2019/</link>
+      <pubDate>Sat, 03 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/my-experience-at-the-cdsb-workshop-2019/</guid>
+      <description>Welcoming to the CDSB and TIB workshops 2019 at the Center for Genomic Sciences in Cuernavaca, Morelos, Mexico.
+  I have been using R and Rstudio for a while in some of my bioinformatics projects, which has given me the chance to learn the basics of the language. On this ocassion, I had the opportunity to delve into some more advanced topics by attending to the “CDSB Workshop 2019: How to Build and Create Tidy Tools”, an international workshop held at the Center for Genomic Sciences (CCG) of the National Autonomous University of Mexico (UNAM) in Cuernavaca, Morelos.</description>
+    </item>
+    
+  </channel>
+</rss>

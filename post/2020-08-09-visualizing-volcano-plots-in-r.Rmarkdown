@@ -1,15 +1,18 @@
 ---
 title: Visualization of Volcano Plots in R
-author: Samuel David Gamboa-Tuz
+authors: 
+  - Samuel David Gamboa-Tuz
 date: '2020-08-09'
 description: A short tutorial about how to make volcano plots in R.
 slug: visualizing-volcano-plots-in-r
+categories: []
 tags: 
   - Data visualization
   - Gene expression
   - R
   - Rstats
   - Tutorial
+  - Bioinformatics
 draft: no
 ---
 

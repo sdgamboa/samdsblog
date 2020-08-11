@@ -8,6 +8,21 @@
   </url>
   
   <url>
+    <loc>/authors/samuel-david-gamboa-tuz/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/authors/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/bioinformatics/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tags/data-visualization/</loc>
     <lastmod>2020-08-09T00:00:00+00:00</lastmod>
   </url>
@@ -50,6 +65,36 @@
   <url>
     <loc>/post/visualizing-volcano-plots-in-r/</loc>
     <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2019-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/experience/</loc>
+    <lastmod>2019-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/experiences/</loc>
+    <lastmod>2019-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/mexico/</loc>
+    <lastmod>2019-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/my-experience-at-the-cdsb-workshop-2019/</loc>
+    <lastmod>2019-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/workshop/</loc>
+    <lastmod>2019-08-03T00:00:00+00:00</lastmod>
   </url>
   
 </urlset>
