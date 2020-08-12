@@ -28,7 +28,7 @@ In this post I'll go through a step-by-step simple tutorial for the visualizatio
 
 ## R packages and data
 
-In addition to the tidyverse package, I'll load the **ggrepel** package to aid in the labeling of the genes. The example data comes from a <a href="https://doi.org/10.1038/s41598-018-32904-2" target="_blank">research article</a> and can be downloaded <a href="https://raw.githubusercontent.com/sdgamboa/misc_datasets/master/L0_vs_L20.tsv" target="_blank">here</a>.
+In addition to the tidyverse package, I'll load the **ggrepel** package to aid in the labeling of the genes. The example data comes from a <a href="https://doi.org/10.1038/s41598-018-32904-2">research article</a> and can be downloaded <a href="https://raw.githubusercontent.com/sdgamboa/misc_datasets/master/L0_vs_L20.tsv">here</a>.
 
 Let's load the packages and import the data:
 
