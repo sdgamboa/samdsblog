@@ -109,7 +109,7 @@ data
 p1
 </code></pre></div><p><img src="/post/2020-08-09-visualizing-volcano-plots-in-r_files/figure-html/plot 1-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>The dispersion of the points (representing genes) in the plot is similar to, you guessed, a volcano (that&rsquo;s why they&rsquo;re called volcano plots). Since the FDR values were transformed to their -log10, the higher the position of a point, the more significant its value is (y axis). Points with positive fold change values (to the right) are up-regulated and points with negative fold change values (to the left) are down-regulated (x axis).</p>
-<h2 id="coloring-differentially-expressed-genes-degs">Coloring differentially expressed genes (DEGs)</h2>
+<h2 id="adding-color-to-differentially-expressed-genes-degs">Adding color to differentially expressed genes (DEGs)</h2>
 <p>Differentially expressed genes (DEGs) are usally considered as those with an absolute fold change greater or equal to 2 and a FDR value of 0.05 or less. So, we can make our volcano plot a bit more informative if we add some color to the DEGs in the plot. To do so, we&rsquo;ll add an additional column, named &lsquo;Expression&rsquo;, indicating whether the expression of a gene is up-regulated, down-regulated, or unchanged:</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#666">&lt;-</span> data <span style="color:#666">%&gt;%</span> 
   <span style="color:#06287e">mutate</span>(

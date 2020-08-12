@@ -62,7 +62,7 @@ p1
 
 The dispersion of the points (representing genes) in the plot is similar to, you guessed, a volcano (that's why they're called volcano plots). Since the FDR values were transformed to their -log10, the higher the position of a point, the more significant its value is (y axis). Points with positive fold change values (to the right) are up-regulated and points with negative fold change values (to the left) are down-regulated (x axis).
 
-## Coloring differentially expressed genes (DEGs)
+## Adding color to differentially expressed genes (DEGs)
 
 Differentially expressed genes (DEGs) are usally considered as those with an absolute fold change greater or equal to 2 and a FDR value of 0.05 or less. So, we can make our volcano plot a bit more informative if we add some color to the DEGs in the plot. To do so, we'll add an additional column, named 'Expression', indicating whether the expression of a gene is up-regulated, down-regulated, or unchanged: 
 
