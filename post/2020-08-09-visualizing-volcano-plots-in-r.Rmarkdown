@@ -162,7 +162,7 @@ So, only the top 10 up- and down-regulated genes are labeled, avoiding overcrowd
 
 ## Conclusion
 
-In this post we applied two different color schemes on a volcano plot and labeled a few genes using the tools of the tidyverse. There are other resources out there to generate volcano plots in R. For example, [EnhancedVolcano](https://www.bioconductor.org/packages/release/bioc/vignettes/EnhancedVolcano/inst/doc/EnhancedVolcano.html#introduction), which uses ggplot2 and ggrepel as dependecies, has some features to automatically address label overcrowding in volcano plots (I haven't tried this package yet, though). 
+In this post we applied two different color schemes on a volcano plot and labeled a few genes using the tools of the tidyverse.
 
 ## Info Session
 ```{r}
