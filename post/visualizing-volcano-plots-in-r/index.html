@@ -150,7 +150,7 @@ p2
 ## 1 Down-regulated  2559
 ## 2 Unchanged      16317
 ## 3 Up-regulated    2069
-</code></pre></div><p>Since we already know that the genes towards the right are up-regulated and the genes towards the left are down-regulated, it would be more informative if we colored the points according to their significance level instead. Let&rsquo;s create another column, named &lsquo;Significance&rsquo; and classify the genes according to significance thresholds (0.05, 0.01, and 0.001):</p>
+</code></pre></div><p>Since we already know that the genes towards the right are up-regulated and the genes towards the left are down-regulated, it would be more informative if we colored the points according to their significance level instead. Let&rsquo;s create another column, named &lsquo;Significance&rsquo;, and classify the genes according to significance thresholds (0.05, 0.01, and 0.001):</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#666">&lt;-</span> data <span style="color:#666">%&gt;%</span> 
   <span style="color:#06287e">mutate</span>(
     Significance <span style="color:#666">=</span> <span style="color:#06287e">case_when</span>(

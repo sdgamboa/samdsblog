@@ -96,7 +96,7 @@ data %>%
   count(Expression)
 ```
 
-Since we already know that the genes towards the right are up-regulated and the genes towards the left are down-regulated, it would be more informative if we colored the points according to their significance level instead. Let's create another column, named 'Significance' and classify the genes according to significance thresholds (0.05, 0.01, and 0.001):
+Since we already know that the genes towards the right are up-regulated and the genes towards the left are down-regulated, it would be more informative if we colored the points according to their significance level instead. Let's create another column, named 'Significance', and classify the genes according to significance thresholds (0.05, 0.01, and 0.001):
 
 ```{r}
 data <- data %>% 
