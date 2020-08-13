@@ -164,7 +164,7 @@ So, only the top 10 up- and down-regulated genes are labeled, avoiding overcrowd
 
 In this post we applied two different color schemes on a volcano plot and labeled a few genes using tools from the tidyverse.
 
-## Info Session
+## Session info
 ```{r}
 info <- sessionInfo()
 toLatex(info, locale = FALSE)
