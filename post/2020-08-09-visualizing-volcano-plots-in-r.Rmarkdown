@@ -76,7 +76,7 @@ data <- data %>%
 data
 ```
 
-We can now map the column ´Expression' to the color aesthetic of `geom_point()`, and color the points according to their expression classification:
+We can now map the column ´Expression' to the color aesthetic of `geom_point()` and color the points according to their expression classification:
 
 ```{r, fig.width=8, fig.align='center'}
 p2 <- ggplot(data, aes(logFC, -log(FDR,10))) +
