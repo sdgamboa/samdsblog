@@ -82,24 +82,69 @@
 <span style="color:#06287e">library</span>(tidyverse)
 <span style="color:#06287e">library</span>(ggrepel)
 
+<span style="color:#60a0b0;font-style:italic"># A short function for outputing the tables</span>
+knitr_table <span style="color:#666">&lt;-</span> <span style="color:#06287e">function</span>(x, <span style="color:#007020;font-weight:bold">...</span>) {
+  x <span style="color:#666">%&gt;%</span> 
+    knitr<span style="color:#666">::</span><span style="color:#06287e">kable</span>(format <span style="color:#666">=</span> <span style="color:#4070a0">&#34;html&#34;</span>, digits <span style="color:#666">=</span> <span style="color:#007020;font-weight:bold">Inf</span>, <span style="color:#007020;font-weight:bold">...</span>) <span style="color:#666">%&gt;%</span>
+    kableExtra<span style="color:#666">::</span><span style="color:#06287e">kable_styling</span>(font_size <span style="color:#666">=</span> <span style="color:#40a070">15</span>)
+}
+
+
 <span style="color:#60a0b0;font-style:italic"># Import data</span>
 data <span style="color:#666">&lt;-</span> <span style="color:#06287e">read_tsv</span>(<span style="color:#4070a0">&#34;https://raw.githubusercontent.com/sdgamboa/misc_datasets/master/L0_vs_L20.tsv&#34;</span>)
-data
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## # A tibble: 20,945 x 4
-##    Genes   logFC   PValue      FDR
-##    &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-##  1 276_4  -10.5  1.60e-61 3.35e-57
-##  2 62_157  -9.32 6.98e-54 7.31e-50
-##  3 144_7   12.2  2.42e-53 1.69e-49
-##  4 198_6  -10.0  3.31e-53 1.73e-49
-##  5 829_3   11.9  2.98e-51 1.25e-47
-##  6 44_124  -8.91 2.98e-50 1.04e-46
-##  7 25_31   -9.00 6.55e-50 1.96e-46
-##  8 12_195  -8.94 7.51e-50 1.97e-46
-##  9 127_41   7.95 1.45e-49 3.38e-46
-## 10 31_39    7.72 1.42e-47 2.97e-44
-## # … with 20,935 more rows
-</code></pre></div><p>The data contains four columns and 20,945 rows. Each row represents a gene. The column &lsquo;Genes&rsquo; contains the sequence names of each gene. The &lsquo;logFC&rsquo; column contains the logarithm base 2 (log2) of the fold change of each gene; up-regulated genes are positive, down-regulated genes are negative. The &lsquo;PValue&rsquo; and &lsquo;FDR&rsquo; columns contain the significance values; these must be converted to the negative of their logarithm base 10 before plotting, i.e -log10(p-value) or -log10(FDR). I&rsquo;ll use the -log10(FDR) in this post.</p>
+<span style="color:#06287e">dim</span>(data)
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## [1] 20945     4
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#06287e">head</span>(data) <span style="color:#666">%&gt;%</span> 
+ <span style="color:#06287e">knitr_table</span>()
+</code></pre></div><table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Genes </th>
+   <th style="text-align:right;"> logFC </th>
+   <th style="text-align:right;"> PValue </th>
+   <th style="text-align:right;"> FDR </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 276_4 </td>
+   <td style="text-align:right;"> -10.511825 </td>
+   <td style="text-align:right;"> 1.597352e-61 </td>
+   <td style="text-align:right;"> 3.345653e-57 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 62_157 </td>
+   <td style="text-align:right;"> -9.317522 </td>
+   <td style="text-align:right;"> 6.982557e-54 </td>
+   <td style="text-align:right;"> 7.312483e-50 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 144_7 </td>
+   <td style="text-align:right;"> 12.203291 </td>
+   <td style="text-align:right;"> 2.423896e-53 </td>
+   <td style="text-align:right;"> 1.692283e-49 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 198_6 </td>
+   <td style="text-align:right;"> -10.022519 </td>
+   <td style="text-align:right;"> 3.310041e-53 </td>
+   <td style="text-align:right;"> 1.733220e-49 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 829_3 </td>
+   <td style="text-align:right;"> 11.867788 </td>
+   <td style="text-align:right;"> 2.981901e-51 </td>
+   <td style="text-align:right;"> 1.249119e-47 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 44_124 </td>
+   <td style="text-align:right;"> -8.906832 </td>
+   <td style="text-align:right;"> 2.981555e-50 </td>
+   <td style="text-align:right;"> 1.040811e-46 </td>
+  </tr>
+</tbody>
+</table>
+<p>The data contains four columns and 20,945 rows. Each row represents a gene. The column &lsquo;Genes&rsquo; contains the sequence names of each gene. The &lsquo;logFC&rsquo; column contains the logarithm base 2 (log2) of the fold change of each gene; up-regulated genes are positive, down-regulated genes are negative. The &lsquo;PValue&rsquo; and &lsquo;FDR&rsquo; columns contain the significance values; these must be converted to the negative of their logarithm base 10 before plotting, i.e -log10(p-value) or -log10(FDR). I&rsquo;ll use the -log10(FDR) in this post.</p>
 <h2 id="a-simple-volcano-plot">A simple volcano plot</h2>
 <p>Since volacno plots are scatter plots, we can use <code>geom_point()</code> to generate one with ggplot2. The conversion of the FDR values to their -log10 can be done at this step:</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p1 <span style="color:#666">&lt;-</span> <span style="color:#06287e">ggplot</span>(data, <span style="color:#06287e">aes</span>(logFC, <span style="color:#666">-</span><span style="color:#06287e">log</span>(FDR,<span style="color:#40a070">10</span>))) <span style="color:#666">+</span> <span style="color:#60a0b0;font-style:italic"># -log10 conversion  </span>
@@ -117,22 +162,64 @@ p1
                            logFC <span style="color:#666">&lt;=</span> <span style="color:#666">-</span><span style="color:#06287e">log</span>(<span style="color:#40a070">2</span>) <span style="color:#666">&amp;</span> FDR <span style="color:#666">&lt;=</span> <span style="color:#40a070">0.05</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;Down-regulated&#34;</span>,
                            <span style="color:#007020;font-weight:bold">TRUE</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;Unchanged&#34;</span>)
     )
-data
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## # A tibble: 20,945 x 5
-##    Genes   logFC   PValue      FDR Expression    
-##    &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;         
-##  1 276_4  -10.5  1.60e-61 3.35e-57 Down-regulated
-##  2 62_157  -9.32 6.98e-54 7.31e-50 Down-regulated
-##  3 144_7   12.2  2.42e-53 1.69e-49 Up-regulated  
-##  4 198_6  -10.0  3.31e-53 1.73e-49 Down-regulated
-##  5 829_3   11.9  2.98e-51 1.25e-47 Up-regulated  
-##  6 44_124  -8.91 2.98e-50 1.04e-46 Down-regulated
-##  7 25_31   -9.00 6.55e-50 1.96e-46 Down-regulated
-##  8 12_195  -8.94 7.51e-50 1.97e-46 Down-regulated
-##  9 127_41   7.95 1.45e-49 3.38e-46 Up-regulated  
-## 10 31_39    7.72 1.42e-47 2.97e-44 Up-regulated  
-## # … with 20,935 more rows
-</code></pre></div><p>We can now map the column ´Expression&rsquo; to the color aesthetic of <code>geom_point()</code> and color the points according to their expression classification:</p>
+<span style="color:#06287e">head</span>(data) <span style="color:#666">%&gt;%</span> 
+  <span style="color:#06287e">knitr_table</span>()
+</code></pre></div><table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Genes </th>
+   <th style="text-align:right;"> logFC </th>
+   <th style="text-align:right;"> PValue </th>
+   <th style="text-align:right;"> FDR </th>
+   <th style="text-align:left;"> Expression </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 276_4 </td>
+   <td style="text-align:right;"> -10.511825 </td>
+   <td style="text-align:right;"> 1.597352e-61 </td>
+   <td style="text-align:right;"> 3.345653e-57 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 62_157 </td>
+   <td style="text-align:right;"> -9.317522 </td>
+   <td style="text-align:right;"> 6.982557e-54 </td>
+   <td style="text-align:right;"> 7.312483e-50 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 144_7 </td>
+   <td style="text-align:right;"> 12.203291 </td>
+   <td style="text-align:right;"> 2.423896e-53 </td>
+   <td style="text-align:right;"> 1.692283e-49 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 198_6 </td>
+   <td style="text-align:right;"> -10.022519 </td>
+   <td style="text-align:right;"> 3.310041e-53 </td>
+   <td style="text-align:right;"> 1.733220e-49 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 829_3 </td>
+   <td style="text-align:right;"> 11.867788 </td>
+   <td style="text-align:right;"> 2.981901e-51 </td>
+   <td style="text-align:right;"> 1.249119e-47 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 44_124 </td>
+   <td style="text-align:right;"> -8.906832 </td>
+   <td style="text-align:right;"> 2.981555e-50 </td>
+   <td style="text-align:right;"> 1.040811e-46 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+  </tr>
+</tbody>
+</table>
+<p>We can now map the column ´Expression&rsquo; to the color aesthetic of <code>geom_point()</code> and color the points according to their expression classification:</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p2 <span style="color:#666">&lt;-</span> <span style="color:#06287e">ggplot</span>(data, <span style="color:#06287e">aes</span>(logFC, <span style="color:#666">-</span><span style="color:#06287e">log</span>(FDR,<span style="color:#40a070">10</span>))) <span style="color:#666">+</span>
   <span style="color:#06287e">geom_point</span>(<span style="color:#06287e">aes</span>(color <span style="color:#666">=</span> Expression), size <span style="color:#666">=</span> <span style="color:#40a070">2</span><span style="color:#666">/</span><span style="color:#40a070">5</span>) <span style="color:#666">+</span>
   <span style="color:#06287e">xlab</span>(<span style="color:#06287e">expression</span>(<span style="color:#4070a0">&#34;log&#34;</span>[2]<span style="color:#666">*</span><span style="color:#4070a0">&#34;FC&#34;</span>)) <span style="color:#666">+</span> 
@@ -140,17 +227,34 @@ data
   <span style="color:#06287e">scale_color_manual</span>(values <span style="color:#666">=</span> <span style="color:#06287e">c</span>(<span style="color:#4070a0">&#34;dodgerblue3&#34;</span>, <span style="color:#4070a0">&#34;gray50&#34;</span>, <span style="color:#4070a0">&#34;firebrick3&#34;</span>)) <span style="color:#666">+</span>
   <span style="color:#06287e">guides</span>(colour <span style="color:#666">=</span> <span style="color:#06287e">guide_legend</span>(override.aes <span style="color:#666">=</span> <span style="color:#06287e">list</span>(size<span style="color:#666">=</span><span style="color:#40a070">1.5</span>))) 
 p2
-</code></pre></div><p><img src="/post/2020-08-09-visualizing-volcano-plots-in-r_files/figure-html/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
+</code></pre></div><p><img src="/post/2020-08-09-visualizing-volcano-plots-in-r_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>If we want to know how many genes are up- or down-regulated, or unchanged, we can use dplyr&rsquo;s <code>count()</code> function.</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">count</span>(Expression)
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## # A tibble: 3 x 2
-##   Expression         n
-##   &lt;chr&gt;          &lt;int&gt;
-## 1 Down-regulated  2559
-## 2 Unchanged      16317
-## 3 Up-regulated    2069
-</code></pre></div><p>Since we already know that the genes towards the right are up-regulated and the genes towards the left are down-regulated, it would be more informative if we colored the points according to their significance level instead. Let&rsquo;s create another column, named &lsquo;Significance&rsquo;, and classify the genes according to significance thresholds (0.05, 0.01, and 0.001):</p>
+  <span style="color:#06287e">count</span>(Expression) <span style="color:#666">%&gt;%</span> 
+  <span style="color:#06287e">knitr_table</span>()
+</code></pre></div><table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Expression </th>
+   <th style="text-align:right;"> n </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:right;"> 2559 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Unchanged </td>
+   <td style="text-align:right;"> 16317 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:right;"> 2069 </td>
+  </tr>
+</tbody>
+</table>
+<p>Since we already know that the genes towards the right are up-regulated and the genes towards the left are down-regulated, it would be more informative if we colored the points according to their significance level instead. Let&rsquo;s create another column, named &lsquo;Significance&rsquo;, and classify the genes according to significance thresholds (0.05, 0.01, and 0.001):</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#666">&lt;-</span> data <span style="color:#666">%&gt;%</span> 
   <span style="color:#06287e">mutate</span>(
     Significance <span style="color:#666">=</span> <span style="color:#06287e">case_when</span>(
@@ -159,22 +263,71 @@ p2
       <span style="color:#06287e">abs</span>(logFC) <span style="color:#666">&gt;=</span> <span style="color:#06287e">log</span>(<span style="color:#40a070">2</span>) <span style="color:#666">&amp;</span> FDR <span style="color:#666">&lt;=</span> <span style="color:#40a070">0.001</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;FDR 0.001&#34;</span>, 
       <span style="color:#007020;font-weight:bold">TRUE</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;Unchanged&#34;</span>)
   )
-data
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## # A tibble: 20,945 x 6
-##    Genes   logFC   PValue      FDR Expression     Significance
-##    &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;       
-##  1 276_4  -10.5  1.60e-61 3.35e-57 Down-regulated FDR 0.001   
-##  2 62_157  -9.32 6.98e-54 7.31e-50 Down-regulated FDR 0.001   
-##  3 144_7   12.2  2.42e-53 1.69e-49 Up-regulated   FDR 0.001   
-##  4 198_6  -10.0  3.31e-53 1.73e-49 Down-regulated FDR 0.001   
-##  5 829_3   11.9  2.98e-51 1.25e-47 Up-regulated   FDR 0.001   
-##  6 44_124  -8.91 2.98e-50 1.04e-46 Down-regulated FDR 0.001   
-##  7 25_31   -9.00 6.55e-50 1.96e-46 Down-regulated FDR 0.001   
-##  8 12_195  -8.94 7.51e-50 1.97e-46 Down-regulated FDR 0.001   
-##  9 127_41   7.95 1.45e-49 3.38e-46 Up-regulated   FDR 0.001   
-## 10 31_39    7.72 1.42e-47 2.97e-44 Up-regulated   FDR 0.001   
-## # … with 20,935 more rows
-</code></pre></div><p>Again, we can use the color aesthetic to map the color of the points to their corresponding significance thresholds:</p>
+<span style="color:#06287e">head</span>(data) <span style="color:#666">%&gt;%</span> 
+  <span style="color:#06287e">knitr_table</span>()
+</code></pre></div><table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Genes </th>
+   <th style="text-align:right;"> logFC </th>
+   <th style="text-align:right;"> PValue </th>
+   <th style="text-align:right;"> FDR </th>
+   <th style="text-align:left;"> Expression </th>
+   <th style="text-align:left;"> Significance </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 276_4 </td>
+   <td style="text-align:right;"> -10.511825 </td>
+   <td style="text-align:right;"> 1.597352e-61 </td>
+   <td style="text-align:right;"> 3.345653e-57 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 62_157 </td>
+   <td style="text-align:right;"> -9.317522 </td>
+   <td style="text-align:right;"> 6.982557e-54 </td>
+   <td style="text-align:right;"> 7.312483e-50 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 144_7 </td>
+   <td style="text-align:right;"> 12.203291 </td>
+   <td style="text-align:right;"> 2.423896e-53 </td>
+   <td style="text-align:right;"> 1.692283e-49 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 198_6 </td>
+   <td style="text-align:right;"> -10.022519 </td>
+   <td style="text-align:right;"> 3.310041e-53 </td>
+   <td style="text-align:right;"> 1.733220e-49 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 829_3 </td>
+   <td style="text-align:right;"> 11.867788 </td>
+   <td style="text-align:right;"> 2.981901e-51 </td>
+   <td style="text-align:right;"> 1.249119e-47 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 44_124 </td>
+   <td style="text-align:right;"> -8.906832 </td>
+   <td style="text-align:right;"> 2.981555e-50 </td>
+   <td style="text-align:right;"> 1.040811e-46 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+</tbody>
+</table>
+<p>Again, we can use the color aesthetic to map the color of the points to their corresponding significance thresholds:</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p3 <span style="color:#666">&lt;-</span> <span style="color:#06287e">ggplot</span>(data, <span style="color:#06287e">aes</span>(logFC, <span style="color:#666">-</span><span style="color:#06287e">log</span>(FDR,<span style="color:#40a070">10</span>))) <span style="color:#666">+</span>
   <span style="color:#06287e">geom_point</span>(<span style="color:#06287e">aes</span>(color <span style="color:#666">=</span> Significance), size <span style="color:#666">=</span> <span style="color:#40a070">2</span><span style="color:#666">/</span><span style="color:#40a070">5</span>) <span style="color:#666">+</span>
   <span style="color:#06287e">xlab</span>(<span style="color:#06287e">expression</span>(<span style="color:#4070a0">&#34;log&#34;</span>[2]<span style="color:#666">*</span><span style="color:#4070a0">&#34;FC&#34;</span>)) <span style="color:#666">+</span> 
@@ -183,21 +336,58 @@ data
   <span style="color:#06287e">guides</span>(colour <span style="color:#666">=</span> <span style="color:#06287e">guide_legend</span>(override.aes <span style="color:#666">=</span> <span style="color:#06287e">list</span>(size<span style="color:#666">=</span><span style="color:#40a070">1.5</span>))) 
 
 p3
-</code></pre></div><p><img src="/post/2020-08-09-visualizing-volcano-plots-in-r_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</code></pre></div><p><img src="/post/2020-08-09-visualizing-volcano-plots-in-r_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>And we can count how many genes are up- or down-regulated according to the different significance thresholds with <code>count()</code>:</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">count</span>(Expression, Significance)
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## # A tibble: 7 x 3
-##   Expression     Significance     n
-##   &lt;chr&gt;          &lt;chr&gt;        &lt;int&gt;
-## 1 Down-regulated FDR 0.001     1259
-## 2 Down-regulated FDR 0.01       584
-## 3 Down-regulated FDR 0.05       716
-## 4 Unchanged      Unchanged    16317
-## 5 Up-regulated   FDR 0.001      799
-## 6 Up-regulated   FDR 0.01       484
-## 7 Up-regulated   FDR 0.05       786
-</code></pre></div><h2 id="adding-labels-to-selected-genes">Adding labels to selected genes</h2>
+  <span style="color:#06287e">count</span>(Expression, Significance) <span style="color:#666">%&gt;%</span> 
+  <span style="color:#06287e">knitr_table</span>()
+</code></pre></div><table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Expression </th>
+   <th style="text-align:left;"> Significance </th>
+   <th style="text-align:right;"> n </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+   <td style="text-align:right;"> 1259 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.01 </td>
+   <td style="text-align:right;"> 584 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.05 </td>
+   <td style="text-align:right;"> 716 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Unchanged </td>
+   <td style="text-align:left;"> Unchanged </td>
+   <td style="text-align:right;"> 16317 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+   <td style="text-align:right;"> 799 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.01 </td>
+   <td style="text-align:right;"> 484 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.05 </td>
+   <td style="text-align:right;"> 786 </td>
+  </tr>
+</tbody>
+</table>
+<h2 id="adding-labels-to-selected-genes">Adding labels to selected genes</h2>
 <p>If we labeled all of the genes, we&rsquo;d end up with a plot with overcrowded labels that wouldn&rsquo;t be possible to read. So, we could opt for labeling only the top n genes or a specific subset of them. For example:</p>
 <div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">top <span style="color:#666">&lt;-</span> <span style="color:#40a070">10</span>
 top_genes <span style="color:#666">&lt;-</span> <span style="color:#06287e">bind_rows</span>(
@@ -210,36 +400,188 @@ top_genes <span style="color:#666">&lt;-</span> <span style="color:#06287e">bind
     <span style="color:#06287e">arrange</span>(FDR, <span style="color:#06287e">desc</span>(<span style="color:#06287e">abs</span>(logFC))) <span style="color:#666">%&gt;%</span> 
     <span style="color:#06287e">head</span>(top)
 )
-top_genes
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## # A tibble: 20 x 6
-##    Genes   logFC   PValue      FDR Expression     Significance
-##    &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;       
-##  1 144_7   12.2  2.42e-53 1.69e-49 Up-regulated   FDR 0.001   
-##  2 829_3   11.9  2.98e-51 1.25e-47 Up-regulated   FDR 0.001   
-##  3 127_41   7.95 1.45e-49 3.38e-46 Up-regulated   FDR 0.001   
-##  4 31_39    7.72 1.42e-47 2.97e-44 Up-regulated   FDR 0.001   
-##  5 146_68  11.0  5.43e-47 1.03e-43 Up-regulated   FDR 0.001   
-##  6 1078_1   7.75 6.83e-47 1.10e-43 Up-regulated   FDR 0.001   
-##  7 836_2    9.11 1.19e-42 1.78e-39 Up-regulated   FDR 0.001   
-##  8 5_110   12.6  2.34e-42 2.89e-39 Up-regulated   FDR 0.001   
-##  9 1092_3  11.8  2.34e-41 2.73e-38 Up-regulated   FDR 0.001   
-## 10 81_91    6.95 3.40e-41 3.75e-38 Up-regulated   FDR 0.001   
-## 11 276_4  -10.5  1.60e-61 3.35e-57 Down-regulated FDR 0.001   
-## 12 62_157  -9.32 6.98e-54 7.31e-50 Down-regulated FDR 0.001   
-## 13 198_6  -10.0  3.31e-53 1.73e-49 Down-regulated FDR 0.001   
-## 14 44_124  -8.91 2.98e-50 1.04e-46 Down-regulated FDR 0.001   
-## 15 25_31   -9.00 6.55e-50 1.96e-46 Down-regulated FDR 0.001   
-## 16 12_195  -8.94 7.51e-50 1.97e-46 Down-regulated FDR 0.001   
-## 17 85_19   -7.74 6.22e-47 1.08e-43 Down-regulated FDR 0.001   
-## 18 57_45   -6.50 1.36e-42 1.89e-39 Down-regulated FDR 0.001   
-## 19 170_33  -6.90 1.52e-42 1.99e-39 Down-regulated FDR 0.001   
-## 20 468_3   -9.32 1.16e-40 1.21e-37 Down-regulated FDR 0.001
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p3 <span style="color:#666">&lt;-</span>  p3 <span style="color:#666">+</span>
+top_genes <span style="color:#666">%&gt;%</span> 
+  <span style="color:#06287e">knitr_table</span>()
+</code></pre></div><table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Genes </th>
+   <th style="text-align:right;"> logFC </th>
+   <th style="text-align:right;"> PValue </th>
+   <th style="text-align:right;"> FDR </th>
+   <th style="text-align:left;"> Expression </th>
+   <th style="text-align:left;"> Significance </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 144_7 </td>
+   <td style="text-align:right;"> 12.203291 </td>
+   <td style="text-align:right;"> 2.423896e-53 </td>
+   <td style="text-align:right;"> 1.692283e-49 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 829_3 </td>
+   <td style="text-align:right;"> 11.867788 </td>
+   <td style="text-align:right;"> 2.981901e-51 </td>
+   <td style="text-align:right;"> 1.249119e-47 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 127_41 </td>
+   <td style="text-align:right;"> 7.949102 </td>
+   <td style="text-align:right;"> 1.453754e-49 </td>
+   <td style="text-align:right;"> 3.383209e-46 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 31_39 </td>
+   <td style="text-align:right;"> 7.716666 </td>
+   <td style="text-align:right;"> 1.415916e-47 </td>
+   <td style="text-align:right;"> 2.965636e-44 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 146_68 </td>
+   <td style="text-align:right;"> 11.025068 </td>
+   <td style="text-align:right;"> 5.433919e-47 </td>
+   <td style="text-align:right;"> 1.034668e-43 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1078_1 </td>
+   <td style="text-align:right;"> 7.749041 </td>
+   <td style="text-align:right;"> 6.828288e-47 </td>
+   <td style="text-align:right;"> 1.100142e-43 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 836_2 </td>
+   <td style="text-align:right;"> 9.113524 </td>
+   <td style="text-align:right;"> 1.191834e-42 </td>
+   <td style="text-align:right;"> 1.783070e-39 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 5_110 </td>
+   <td style="text-align:right;"> 12.568871 </td>
+   <td style="text-align:right;"> 2.343958e-42 </td>
+   <td style="text-align:right;"> 2.887894e-39 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1092_3 </td>
+   <td style="text-align:right;"> 11.793138 </td>
+   <td style="text-align:right;"> 2.344945e-41 </td>
+   <td style="text-align:right;"> 2.728604e-38 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 81_91 </td>
+   <td style="text-align:right;"> 6.948956 </td>
+   <td style="text-align:right;"> 3.398732e-41 </td>
+   <td style="text-align:right;"> 3.746655e-38 </td>
+   <td style="text-align:left;"> Up-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 276_4 </td>
+   <td style="text-align:right;"> -10.511825 </td>
+   <td style="text-align:right;"> 1.597352e-61 </td>
+   <td style="text-align:right;"> 3.345653e-57 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 62_157 </td>
+   <td style="text-align:right;"> -9.317522 </td>
+   <td style="text-align:right;"> 6.982557e-54 </td>
+   <td style="text-align:right;"> 7.312483e-50 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 198_6 </td>
+   <td style="text-align:right;"> -10.022519 </td>
+   <td style="text-align:right;"> 3.310041e-53 </td>
+   <td style="text-align:right;"> 1.733220e-49 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 44_124 </td>
+   <td style="text-align:right;"> -8.906832 </td>
+   <td style="text-align:right;"> 2.981555e-50 </td>
+   <td style="text-align:right;"> 1.040811e-46 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 25_31 </td>
+   <td style="text-align:right;"> -8.997426 </td>
+   <td style="text-align:right;"> 6.545320e-50 </td>
+   <td style="text-align:right;"> 1.958453e-46 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 12_195 </td>
+   <td style="text-align:right;"> -8.943343 </td>
+   <td style="text-align:right;"> 7.513410e-50 </td>
+   <td style="text-align:right;"> 1.967105e-46 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 85_19 </td>
+   <td style="text-align:right;"> -7.735937 </td>
+   <td style="text-align:right;"> 6.215242e-47 </td>
+   <td style="text-align:right;"> 1.084819e-43 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 57_45 </td>
+   <td style="text-align:right;"> -6.501718 </td>
+   <td style="text-align:right;"> 1.355336e-42 </td>
+   <td style="text-align:right;"> 1.892500e-39 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 170_33 </td>
+   <td style="text-align:right;"> -6.903067 </td>
+   <td style="text-align:right;"> 1.518887e-42 </td>
+   <td style="text-align:right;"> 1.988317e-39 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 468_3 </td>
+   <td style="text-align:right;"> -9.322243 </td>
+   <td style="text-align:right;"> 1.156078e-40 </td>
+   <td style="text-align:right;"> 1.210703e-37 </td>
+   <td style="text-align:left;"> Down-regulated </td>
+   <td style="text-align:left;"> FDR 0.001 </td>
+  </tr>
+</tbody>
+</table>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p3 <span style="color:#666">&lt;-</span>  p3 <span style="color:#666">+</span>
   <span style="color:#06287e">geom_label_repel</span>(data <span style="color:#666">=</span> top_genes,
                    mapping <span style="color:#666">=</span> <span style="color:#06287e">aes</span>(logFC, <span style="color:#666">-</span><span style="color:#06287e">log</span>(FDR,<span style="color:#40a070">10</span>), label <span style="color:#666">=</span> Genes),
                    size <span style="color:#666">=</span> <span style="color:#40a070">2</span>)
 p3
-</code></pre></div><p><img src="/post/2020-08-09-visualizing-volcano-plots-in-r_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</code></pre></div><p><img src="/post/2020-08-09-visualizing-volcano-plots-in-r_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>So, only the top 10 up- and down-regulated genes are labeled, avoiding overcrowding.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>In this post we applied two different color schemes on a volcano plot and labeled a few genes using tools from the tidyverse.</p>
@@ -263,14 +605,15 @@ p3
 ##     compiler~4.0.2, crayon~1.3.4, curl~4.3, DBI~1.1.0, dbplyr~1.4.4,
 ##     digest~0.6.25, ellipsis~0.3.1, evaluate~0.14, fansi~0.4.1,
 ##     farver~2.0.3, fs~1.4.2, generics~0.0.2, glue~1.4.1, grid~4.0.2,
-##     gtable~0.3.0, haven~2.3.1, hms~0.5.3, htmltools~0.5.0, httr~1.4.1,
-##     jsonlite~1.7.0, knitr~1.29, labeling~0.3, lifecycle~0.2.0,
-##     lubridate~1.7.9, magrittr~1.5, modelr~0.1.8, munsell~0.5.0,
-##     pillar~1.4.6, pkgconfig~2.0.3, R6~2.4.1, Rcpp~1.0.5, readxl~1.3.1,
-##     reprex~0.3.0, rlang~0.4.7, rmarkdown~2.3, rstudioapi~0.11,
-##     rvest~0.3.5, scales~1.1.1, stringi~1.4.6, tidyselect~1.1.0,
-##     tools~4.0.2, utf8~1.1.4, vctrs~0.3.2, viridisLite~0.3.0,
-##     withr~2.2.0, xfun~0.15, xml2~1.3.2, yaml~2.2.1
+##     gtable~0.3.0, haven~2.3.1, highr~0.8, hms~0.5.3, htmltools~0.5.0,
+##     httr~1.4.1, jsonlite~1.7.0, kableExtra~1.1.0, knitr~1.29,
+##     labeling~0.3, lifecycle~0.2.0, lubridate~1.7.9, magrittr~1.5,
+##     modelr~0.1.8, munsell~0.5.0, pillar~1.4.6, pkgconfig~2.0.3,
+##     R6~2.4.1, Rcpp~1.0.5, readxl~1.3.1, reprex~0.3.0, rlang~0.4.7,
+##     rmarkdown~2.3, rstudioapi~0.11, rvest~0.3.5, scales~1.1.1,
+##     stringi~1.4.6, tidyselect~1.1.0, tools~4.0.2, vctrs~0.3.2,
+##     viridisLite~0.3.0, webshot~0.5.2, withr~2.2.0, xfun~0.15,
+##     xml2~1.3.2, yaml~2.2.1
 ## \end{itemize}
 </code></pre></div>
 		</div>

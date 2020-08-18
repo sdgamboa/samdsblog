@@ -32,7 +32,8 @@ In addition to the tidyverse package, I'll load the **ggrepel** package to aid i
 
 Let's load the packages and import the data:
 
-```{r Load packages, message=FALSE}
+
+```{r, message=FALSE}
 # The packages can be installed within R with:
 # intstall.packages(c("tidyverse", "ggrepel"))
 
@@ -40,9 +41,19 @@ Let's load the packages and import the data:
 library(tidyverse)
 library(ggrepel)
 
+# A short function for outputing the tables
+knitr_table <- function(x, ...) {
+  x %>% 
+    knitr::kable(format = "html", digits = Inf, ...) %>%
+    kableExtra::kable_styling(font_size = 15)
+}
+
+
 # Import data
 data <- read_tsv("https://raw.githubusercontent.com/sdgamboa/misc_datasets/master/L0_vs_L20.tsv")
-data
+dim(data)
+head(data) %>% 
+ knitr_table()
 ```
 
 The data contains four columns and 20,945 rows. Each row represents a gene. The column 'Genes' contains the sequence names of each gene. The 'logFC' column contains the logarithm base 2 (log2) of the fold change of each gene; up-regulated genes are positive, down-regulated genes are negative. The 'PValue' and 'FDR' columns contain the significance values; these must be converted to the negative of their logarithm base 10 before plotting, i.e -log10(p-value) or -log10(FDR). I'll use the -log10(FDR) in this post.
@@ -73,7 +84,8 @@ data <- data %>%
                            logFC <= -log(2) & FDR <= 0.05 ~ "Down-regulated",
                            TRUE ~ "Unchanged")
     )
-data
+head(data) %>% 
+  knitr_table()
 ```
 
 We can now map the column ´Expression' to the color aesthetic of `geom_point()` and color the points according to their expression classification:
@@ -93,7 +105,8 @@ If we want to know how many genes are up- or down-regulated, or unchanged, we ca
 
 ```{r}
 data %>% 
-  count(Expression)
+  count(Expression) %>% 
+  knitr_table()
 ```
 
 Since we already know that the genes towards the right are up-regulated and the genes towards the left are down-regulated, it would be more informative if we colored the points according to their significance level instead. Let's create another column, named 'Significance', and classify the genes according to significance thresholds (0.05, 0.01, and 0.001):
@@ -107,7 +120,8 @@ data <- data %>%
       abs(logFC) >= log(2) & FDR <= 0.001 ~ "FDR 0.001", 
       TRUE ~ "Unchanged")
   )
-data
+head(data) %>% 
+  knitr_table()
 ```
 
 Again, we can use the color aesthetic to map the color of the points to their corresponding significance thresholds:
@@ -127,7 +141,10 @@ And we can count how many genes are up- or down-regulated according to the diffe
 
 ```{r}
 data %>% 
-  count(Expression, Significance)
+  count(Expression, Significance) %>% 
+  knitr_table()
+
+
 ```
 
 ## Adding labels to selected genes
@@ -147,7 +164,8 @@ top_genes <- bind_rows(
     arrange(FDR, desc(abs(logFC))) %>% 
     head(top)
 )
-top_genes
+top_genes %>% 
+  knitr_table()
 
 p3 <-  p3 +
   geom_label_repel(data = top_genes,
