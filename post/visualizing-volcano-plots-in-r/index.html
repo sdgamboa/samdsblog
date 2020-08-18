@@ -82,10 +82,10 @@
 <span style="color:#06287e">library</span>(tidyverse)
 <span style="color:#06287e">library</span>(ggrepel)
 
-<span style="color:#60a0b0;font-style:italic"># A short function for outputing the tables</span>
-knitr_table <span style="color:#666">&lt;-</span> <span style="color:#06287e">function</span>(x, <span style="color:#007020;font-weight:bold">...</span>) {
+<span style="color:#60a0b0;font-style:italic"># A short function for outputting the tables</span>
+knitr_table <span style="color:#666">&lt;-</span> <span style="color:#06287e">function</span>(x) {
   x <span style="color:#666">%&gt;%</span> 
-    knitr<span style="color:#666">::</span><span style="color:#06287e">kable</span>(format <span style="color:#666">=</span> <span style="color:#4070a0">&#34;html&#34;</span>, digits <span style="color:#666">=</span> <span style="color:#007020;font-weight:bold">Inf</span>, <span style="color:#007020;font-weight:bold">...</span>) <span style="color:#666">%&gt;%</span>
+    knitr<span style="color:#666">::</span><span style="color:#06287e">kable</span>(format <span style="color:#666">=</span> <span style="color:#4070a0">&#34;html&#34;</span>, digits <span style="color:#666">=</span> <span style="color:#007020;font-weight:bold">Inf</span>) <span style="color:#666">%&gt;%</span>
     kableExtra<span style="color:#666">::</span><span style="color:#06287e">kable_styling</span>(font_size <span style="color:#666">=</span> <span style="color:#40a070">15</span>)
 }
 

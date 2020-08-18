@@ -41,10 +41,10 @@ Let's load the packages and import the data:
 library(tidyverse)
 library(ggrepel)
 
-# A short function for outputing the tables
-knitr_table <- function(x, ...) {
+# A short function for outputting the tables
+knitr_table <- function(x) {
   x %>% 
-    knitr::kable(format = "html", digits = Inf, ...) %>%
+    knitr::kable(format = "html", digits = Inf) %>%
     kableExtra::kable_styling(font_size = 15)
 }
 
