@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Samuel David Gamboa-Tuz, 2019-{year}</copyright>
-    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Visualization of Volcano Plots in R</title>
       <link>/post/visualizing-volcano-plots-in-r/</link>
-      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/post/visualizing-volcano-plots-in-r/</guid>
       <description>Introduction A volcano plot is a type of scatter plot commonly used in biology research to represent changes in the expression of hundreds or thousands of genes between samples. It&amp;rsquo;s the graphical representation of a differental expression analysis, which can be done with tools like EdgeR or DESeq2. Volcano plots indicate the fold change (either positive or negative) in the x axis and a significance value (such as the p-value or the adjusted p-value, i.</description>

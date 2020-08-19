@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Samuel David Gamboa-Tuz, 2019-{year}</copyright>
-    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Bioinformatics</title>
       <link>/tags/bioinformatics/</link>
-      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/bioinformatics/</guid>
       <description></description>
@@ -24,7 +24,7 @@
     <item>
       <title>Data visualization</title>
       <link>/tags/data-visualization/</link>
-      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/data-visualization/</guid>
       <description></description>
@@ -33,7 +33,7 @@
     <item>
       <title>Gene expression</title>
       <link>/tags/gene-expression/</link>
-      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/gene-expression/</guid>
       <description></description>
@@ -42,7 +42,7 @@
     <item>
       <title>R</title>
       <link>/tags/r/</link>
-      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
       <description></description>
@@ -51,7 +51,7 @@
     <item>
       <title>Rstats</title>
       <link>/tags/rstats/</link>
-      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/rstats/</guid>
       <description></description>
@@ -60,7 +60,7 @@
     <item>
       <title>Tutorial</title>
       <link>/tags/tutorial/</link>
-      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/tutorial/</guid>
       <description></description>
