@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dates on Samuel&#39;s Blog</title>
+    <link>/tags/dates/</link>
+    <description>Recent content in dates on Samuel&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Samuel David Gamboa-Tuz, 2019-{year}</copyright>
+    <lastBuildDate>Wed, 18 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/dates/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Handling Dates and Times in R</title>
+      <link>/post/uber-date-time-r/</link>
+      <pubDate>Wed, 18 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/uber-date-time-r/</guid>
+      <description>The other day I requested my rides data to Uber (here). They replied with a convenient csv file containing detailed information of every ride I took between 2016 and 2019. The dataset included dates and times in UTC format. I used this dataset to try some functions of the lubridate package for handling dates and times in R.
+# Load packages library(tidyverse) library(lubridate) The dataset Let&amp;rsquo;s start by importing the dataset.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,266 @@
+---
+title: Handling Dates and Times in R
+authors: 
+  - Samuel David Gamboa-Tuz
+date: '2019-12-18'
+description: I use my Uber data to try the lubridate package for handling dates and times in R.
+slug: uber-date-time-R
+categories: 
+  - Experiences
+tags: 
+  - R
+  - lubridate
+  - uber
+  - dates
+  - times 
+draft: no
+---
+
+```{r Global Options, include = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+The other day I requested my rides data to Uber ([here](https://help.uber.com/riders/article/download-your-data?nodeId=2c86900d-8408-4bac-b92a-956d793acd11)). They replied with a convenient csv file containing detailed information of every ride I took between 2016 and 2019. The dataset included dates and times in UTC format. I used this dataset to try some functions of the lubridate package for handling dates and times in R. 
+
+
+```{r Load Packages}
+
+# Load packages
+library(tidyverse)
+library(lubridate)
+
+```
+
+
+## The dataset
+
+Let's start by importing the dataset. I removed four columns containing my
+address information beforehand. Still, I won't be sharing the full dataset since it contains detailed information about the starting and ending times of each of my rides. However, you can try the code posted here with [you're own Uber data](https://help.uber.com/riders/article/download-your-data?nodeId=2c86900d-8408-4bac-b92a-956d793acd11).
+
+I'll import the dataset with the `readr::read_csv()` function and check its
+structure.
+
+
+```{r Load Data }
+
+# Open file
+filename <- "./_files/trips_data.csv"
+uber_data <- read_csv(filename)
+
+# See first rows of data
+uber_data
+
+# See data structure
+map(uber_data, unique) %>% 
+  str()
+```
+
+The dataset has nine columns:
+
+| Column name | Description |
+| ----------- | ----------- |
+| City | The city where the ride was requested (Merida or Mexico City). |
+| Product Type | Type of servide: Uberx or uberX. They're both the same. |
+| Trip or Order status | Whether the trip was canceled, completed or canceled by driver. |
+| Request Time | Date and time when the trip was requested in UTC. |
+| Begin Trip Time | Date and time when the trip started in UTC. |
+| Dropoff Time | Date and time when the trip finished in UTC. |
+| Distance (miles) | Total distance of the trip in miles. |
+| Fare Amount | How much did the trip cost. |
+| Fare Currency | Currency. All in Mexican pesos (MXN). |
+ 
+
+I don't need all of this information. I only want to analyze the trips that happened in
+Merida, where I'm from and where most of the trips occurred. I don't need the
+Product Type nor the Fare Currency columns since they both contain a single type of value each. So, I'll only keep the distance, fare, and date-time data of the completed rides. Also, I need to change the names of the columns for ones that are easier to write.
+
+
+```{r Filter and Select}
+uber_data <- uber_data %>%
+  filter(City == "Merida", `Trip or Order Status` == "COMPLETED") %>% 
+  select(request_time = `Request Time`, begin_time = `Begin Trip Time`,
+         dropoff_time = `Dropoff Time`, distance = `Distance (miles)`,
+         fare = `Fare Amount`)
+
+uber_data
+  
+```
+
+
+The dataset looks better now. However, the request_time, begin_time, and  dropoff_time columns,
+which contain date and time values, are stored as character vectors. It would be better to have
+them in a specialized vector for handling dates and times.
+
+## Parsing dates and times
+
+In R, date and time data can be handled as:
+
++ **Date** vectors, for dates.
++ **POSIXct** or **POSIXlt** vectors, for date-time data.
++ **difftime** vectors, for duration.
+
+If you want to know more about these types of vectors, [this blog post](https://www.r-bloggers.com/2020/04/a-comprehensive-introduction-to-handling-date-time-in-r/) offers a good introduction to the use of dates and times in R. In this case, a POSIXct vector would be appropiate to store and handle my data.
+
+Usually, `read_csv()` does a good job in guessing how dates and times are stored when they're in ISO 8601 format,
+but in this case the UTC offset is not recognized (+0000). So, I need to parse it explicity with the
+`readr::parse_datetime()` function. Also, I want to convert the time format from UTC to local time for an easier use.
+
+
+```{r Parse Date and Time}
+
+my_time_zone <- Sys.timezone() # I'm in "America/Merida" time zone at the moment of writing this post. Check OlsonNames() for more time zones.
+
+uber_data <- uber_data %>% 
+  map_if(is.character,
+         ~readr::parse_datetime(.x,
+                         format = "%Y-%m-%d %H:%M:%S %z %Z",
+                         locale = locale(tz = my_time_zone))) %>%
+  as_tibble()
+uber_data
+```
+
+In the code above I used `purrr::map_if()` to parse the character vectors in the
+dataset to POSIXct vectors. Remember that map functions give a list as output, so I had to convert the output back to a tibble. 
+
+Within the `parse_date()` function I used two arguments:
+
+1. The format argument with the specifciations for date, time, offset, and UTC.
+2. The locale argument with my current time zone ("America/Merida").
+
+Now, the dates and times in my dataset are in the correct object type (POSIXct vectors) and I can handle them easily with functions of the lubridate package.
+
+## Getting duration of the trips
+
+Now that the datetime columns have been parsed correctly and are in the local time zone, it’s easy to do calculations with them. 
+
+Let's calculate how much time did I wait for each trip and how long each trip lasted. I can calcuate how much I waited for each trip by estimating the interval between the time of request and the time of start of my trips. An interval between the start of the trip and the time of arrival will tell me how long a trip lasted. I'll use the "interlval operator" (`%--%`) from the lubridate package to get these intervals.
+
+
+I'll also convert the distance to km and calculate the overall fare rate of each trip.
+
+
+```{r Mutate}
+uber_data <- uber_data %>% 
+  mutate(wait = request_time %--% begin_time / dminutes(1),
+         duration = begin_time %--% dropoff_time / dminutes(1),
+         distance = distance * 1.60934,
+         rate = fare / distance)
+str(uber_data)
+```
+
+In the code above, I divided the intervals by 1 minute to get the output in minutes. The `dminutes()` is from the lubridate package as well.
+
+Let's look at the frequency distribution of my wait times between request and beginning of my trips.
+
+
+```{r Histogram}
+p1 <- uber_data %>% 
+  ggplot(aes(wait)) +
+  geom_histogram(binwidth = 1, fill = "firebrick4", alpha = 0.7) +
+  labs(x = "Wait time (min)", y = "Frequency") +
+  scale_x_continuous(breaks = seq(1,15,1)) +
+  theme_classic()
+p1
+```
+
+It seems that most of the times I waited between 2 and 6 minutes. Once, I waited 15 minutes!
+
+I'll use tidyeval to create a function that allows me to create a scatter plot between the different variables of the dataset.
+
+```{r Scatter Plot, fig.height=8, fig.width=8}
+get_label <- function(x) {
+  x_var <- rlang::as_name(enquo(x))
+  return(case_when(x_var == "distance" ~ "Distance (Km)",
+                   x_var == "duration" ~ "Duration (min)",
+                   x_var == "fare" ~ "Fare (MXN)",
+                   x_var == "rate" ~ "Fare Rate (MXN/Km)",
+                   x_var == "wait" ~ "Wait Time (min)"))
+}
+
+make_scatter_plot <- function(x, y) {
+  x_var <- enquo(x)
+  y_var <- enquo(y)
+  uber_data %>% 
+    ggplot(aes(!!x_var, !!y_var)) +
+    labs(x = get_label(!!x_var), y = get_label(!!y_var)) +
+    geom_smooth() +
+    geom_point(size = 0.75, color = "firebrick4") +
+    theme_bw()
+}
+
+p2 <- make_scatter_plot(duration, fare)
+p3 <- make_scatter_plot(distance, fare)
+p4 <- make_scatter_plot(distance, duration)
+p5 <- make_scatter_plot(duration, rate)
+
+ggpubr::ggarrange(p2, p3, p4, p5)
+```
+
+Not suprisingly, longer trips were more expensive.
+
+## Extracting time components from date-time vectors
+
+Individual datetime components can be extracted with lubridate. For example, here is a bar plot depicting the number of Uber rides I took per month (`lubridate::month()`) and year (`lubridate::year()`):
+
+```{r Bar Plot, fig.height=6, fig.width=7.5}
+total_number_of_trips <- length(uber_data$request_time)
+
+p6 <- uber_data %>%
+  group_by(year = year(request_time),
+           month = month(request_time, label = TRUE)
+           ) %>% 
+  summarise(percent = n() / total_number_of_trips) %>% 
+  ungroup() %>% 
+  ggplot(aes(month, percent, fill = factor(year))) +
+  geom_col(aes(group = factor(year))) +
+  facet_wrap(. ~ factor(year), strip.position = "top") +
+  labs(x = "Month", y = "Trips (%)") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_viridis_d(option = "E") +
+  guides(fill = guide_legend(title = "Year")) +
+  theme(panel.grid.major.x =  element_blank())
+p6
+```
+
+
+And, here is a heatmap about the number of trips I took per day of the week (`lubridate::wday()`) and hour (`lubridate::hour`):
+
+
+```{r Heatmap, fig.width=5}
+p7 <- uber_data %>% 
+  count(day = wday(request_time, label = TRUE),
+        hour = hour(request_time),
+        name = "Count") %>% 
+  filter(between(hour, 12, 21)) %>%
+  ggplot() +
+  geom_tile(aes(x = day, y = factor(hour), fill = Count)) +
+  labs(x = "Day", y = "Hour (24 h)") +
+  guides(fill = guide_colorbar(title = "Count")) +
+  theme_classic()
+p7
+```
+
+I made a lot of Uber requests between the 17:00 and 18:00 hours on Fridays. I used to have appointments with my nutritionist at 18:00 on Fridays, I suppose that’s what’s reflected on the heatmap plot.
+
+## Conclusion
+
+In this post I used my Uber rides data to practice how to:
+
+- Correctly parse a UTC offset with `readr::parse_datetime()`.
+- Calculate intervals and durations with the lubridate's interval operator ( `%--%`), and the `lubridate::dminutes()` function.
+- Extract date-time components with lubridate’s `year()`, `month()`, `hour()`, and `wday()` functions. 
+
+
+---
+
+This post was updated on November 26, 2020.
+
+
+```{r Session Info}
+info <- sessionInfo()
+toLatex(info, locale = FALSE)
+```
+

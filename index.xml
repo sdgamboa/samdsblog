@@ -32,6 +32,16 @@
     </item>
     
     <item>
+      <title>Handling Dates and Times in R</title>
+      <link>/post/uber-date-time-r/</link>
+      <pubDate>Wed, 18 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/uber-date-time-r/</guid>
+      <description>The other day I requested my rides data to Uber (here). They replied with a convenient csv file containing detailed information of every ride I took between 2016 and 2019. The dataset included dates and times in UTC format. I used this dataset to try some functions of the lubridate package for handling dates and times in R.
+# Load packages library(tidyverse) library(lubridate) The dataset Let&amp;rsquo;s start by importing the dataset.</description>
+    </item>
+    
+    <item>
       <title>My Experience at the CDSB Workshop 2019</title>
       <link>/post/my-experience-at-the-cdsb-workshop-2019/</link>
       <pubDate>Sat, 03 Aug 2019 00:00:00 +0000</pubDate>
