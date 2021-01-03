@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
 
 	<link rel="stylesheet" type="text/css" media="screen" href="/css/normalize.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" /><link rel="stylesheet" type="text/css" href="/css/dark.css"  />
 
 	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 	<script src="/js/main.js"></script>
@@ -67,21 +67,21 @@
 
 		<div class="markdown">
 			<p>The other day I requested my rides data to Uber (<a href="https://help.uber.com/riders/article/download-your-data?nodeId=2c86900d-8408-4bac-b92a-956d793acd11">here</a>). They replied with a convenient csv file containing detailed information of every ride I took between 2016 and 2019. The dataset included dates and times in UTC format. I used this dataset to try some functions of the lubridate package for handling dates and times in R.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#60a0b0;font-style:italic"># Load packages</span>
-<span style="color:#06287e">library</span>(tidyverse)
-<span style="color:#06287e">library</span>(lubridate)
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#776e71"># Load packages</span>
+<span style="color:#06b6ef">library</span>(tidyverse)
+<span style="color:#06b6ef">library</span>(lubridate)
 </code></pre></div><h2 id="the-dataset">The dataset</h2>
 <p>Let&rsquo;s start by importing the dataset. I removed four columns containing my
 address information beforehand. Still, I won&rsquo;t be sharing the full dataset since it contains detailed information about the starting and ending times of each of my rides. However, you can try the code posted here with <a href="https://help.uber.com/riders/article/download-your-data?nodeId=2c86900d-8408-4bac-b92a-956d793acd11">you&rsquo;re own Uber data</a>.</p>
 <p>I&rsquo;ll import the dataset with the <code>readr::read_csv()</code> function and check its
 structure.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#60a0b0;font-style:italic"># Open file</span>
-filename <span style="color:#666">&lt;-</span> <span style="color:#4070a0">&#34;./_files/trips_data.csv&#34;</span>
-uber_data <span style="color:#666">&lt;-</span> <span style="color:#06287e">read_csv</span>(filename)
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#776e71"># Open file</span>
+filename <span style="color:#5bc4bf">&lt;-</span> <span style="color:#48b685">&#34;./_files/trips_data.csv&#34;</span>
+uber_data <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">read_csv</span>(filename)
 
-<span style="color:#60a0b0;font-style:italic"># See first rows of data</span>
+<span style="color:#776e71"># See first rows of data</span>
 uber_data
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## # A tibble: 184 x 9
+</code></pre></div><div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## # A tibble: 184 x 9
 ##    City  `Product Type` `Trip or Order … `Request Time` `Begin Trip Tim…
 ##    &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt;            &lt;chr&gt;          &lt;chr&gt;           
 ##  1 Meri… UberX          COMPLETED        2019-09-15 00… 2019-09-15 00:5…
@@ -96,10 +96,10 @@ uber_data
 ## 10 Meri… UberX          COMPLETED        2019-06-29 03… 2019-06-29 03:2…
 ## # … with 174 more rows, and 4 more variables: `Dropoff Time` &lt;chr&gt;, `Distance
 ## #   (miles)` &lt;dbl&gt;, `Fare Amount` &lt;dbl&gt;, `Fare Currency` &lt;chr&gt;
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#60a0b0;font-style:italic"># See data structure</span>
-<span style="color:#06287e">map</span>(uber_data, unique) <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">str</span>()
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## List of 9
+</code></pre></div><div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#776e71"># See data structure</span>
+<span style="color:#06b6ef">map</span>(uber_data, unique) <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">str</span>()
+</code></pre></div><div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## List of 9
 ##  $ City                : chr [1:2] &#34;Merida&#34; &#34;Mexico City&#34;
 ##  $ Product Type        : chr [1:2] &#34;UberX&#34; &#34;uberX&#34;
 ##  $ Trip or Order Status: chr [1:3] &#34;COMPLETED&#34; &#34;CANCELED&#34; &#34;DRIVER_CANCELED&#34;
@@ -159,14 +159,14 @@ uber_data
 <p>I don&rsquo;t need all of this information. I only want to analyze the trips that happened in
 Merida, where I&rsquo;m from and where most of the trips occurred. I don&rsquo;t need the
 Product Type nor the Fare Currency columns since they both contain a single type of value each. So, I&rsquo;ll only keep the distance, fare, and date-time data of the completed rides. Also, I need to change the names of the columns for ones that are easier to write.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">uber_data <span style="color:#666">&lt;-</span> uber_data <span style="color:#666">%&gt;%</span>
-  <span style="color:#06287e">filter</span>(City <span style="color:#666">==</span> <span style="color:#4070a0">&#34;Merida&#34;</span>, `Trip or Order Status` <span style="color:#666">==</span> <span style="color:#4070a0">&#34;COMPLETED&#34;</span>) <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">select</span>(request_time <span style="color:#666">=</span> `Request Time`, begin_time <span style="color:#666">=</span> `Begin Trip Time`,
-         dropoff_time <span style="color:#666">=</span> `Dropoff Time`, distance <span style="color:#666">=</span> <span style="color:#06287e">`Distance </span>(miles)`,
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">uber_data <span style="color:#5bc4bf">&lt;-</span> uber_data <span style="color:#5bc4bf">%&gt;%</span>
+  <span style="color:#06b6ef">filter</span>(City <span style="color:#5bc4bf">==</span> <span style="color:#48b685">&#34;Merida&#34;</span>, `Trip or Order Status` <span style="color:#5bc4bf">==</span> <span style="color:#48b685">&#34;COMPLETED&#34;</span>) <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">select</span>(request_time <span style="color:#5bc4bf">=</span> `Request Time`, begin_time <span style="color:#5bc4bf">=</span> `Begin Trip Time`,
+         dropoff_time <span style="color:#5bc4bf">=</span> `Dropoff Time`, distance <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">`Distance </span>(miles)`,
          fare = `Fare Amount`)
 
 uber_data
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## # A tibble: 173 x 5
+</code></pre></div><div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## # A tibble: 173 x 5
 ##    request_time          begin_time          dropoff_time         distance  fare
 ##    &lt;chr&gt;                 &lt;chr&gt;               &lt;chr&gt;                   &lt;dbl&gt; &lt;dbl&gt;
 ##  1 2019-09-15 00:45:08 … 2019-09-15 00:52:0… 2019-09-15 01:00:35…     1.82  63.2
@@ -194,16 +194,16 @@ them in a specialized vector for handling dates and times.</p>
 <p>Usually, <code>read_csv()</code> does a good job in guessing how dates and times are stored when they&rsquo;re in ISO 8601 format,
 but in this case the UTC offset is not recognized (+0000). So, I need to parse it explicity with the
 <code>readr::parse_datetime()</code> function. Also, I want to convert the time format from UTC to local time for an easier use.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">my_time_zone <span style="color:#666">&lt;-</span> <span style="color:#06287e">Sys.timezone</span>() <span style="color:#60a0b0;font-style:italic"># I&#39;m in &#34;America/Merida&#34; time zone at the moment of writing this post. Check OlsonNames() for more time zones.</span>
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">my_time_zone <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">Sys.timezone</span>() <span style="color:#776e71"># I&#39;m in &#34;America/Merida&#34; time zone at the moment of writing this post. Check OlsonNames() for more time zones.</span>
 
-uber_data <span style="color:#666">&lt;-</span> uber_data <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">map_if</span>(is.character,
-         <span style="color:#666">~</span>readr<span style="color:#666">::</span><span style="color:#06287e">parse_datetime</span>(.x,
-                         format <span style="color:#666">=</span> <span style="color:#4070a0">&#34;%Y-%m-%d %H:%M:%S %z %Z&#34;</span>,
-                         locale <span style="color:#666">=</span> <span style="color:#06287e">locale</span>(tz <span style="color:#666">=</span> my_time_zone))) <span style="color:#666">%&gt;%</span>
-  <span style="color:#06287e">as_tibble</span>()
+uber_data <span style="color:#5bc4bf">&lt;-</span> uber_data <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">map_if</span>(is.character,
+         <span style="color:#5bc4bf">~</span>readr<span style="color:#5bc4bf">::</span><span style="color:#06b6ef">parse_datetime</span>(.x,
+                         format <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;%Y-%m-%d %H:%M:%S %z %Z&#34;</span>,
+                         locale <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">locale</span>(tz <span style="color:#5bc4bf">=</span> my_time_zone))) <span style="color:#5bc4bf">%&gt;%</span>
+  <span style="color:#06b6ef">as_tibble</span>()
 uber_data
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## # A tibble: 173 x 5
+</code></pre></div><div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## # A tibble: 173 x 5
 ##    request_time        begin_time          dropoff_time        distance  fare
 ##    &lt;dttm&gt;              &lt;dttm&gt;              &lt;dttm&gt;                 &lt;dbl&gt; &lt;dbl&gt;
 ##  1 2019-09-14 19:45:08 2019-09-14 19:52:08 2019-09-14 20:00:35     1.82  63.2
@@ -229,13 +229,13 @@ dataset to POSIXct vectors. Remember that map functions give a list as output, s
 <p>Now that the datetime columns have been parsed correctly and are in the local time zone, it’s easy to do calculations with them.</p>
 <p>Let&rsquo;s calculate how much time did I wait for each trip and how long each trip lasted. I can calcuate how much I waited for each trip by estimating the interval between the time of request and the time of start of my trips. An interval between the start of the trip and the time of arrival will tell me how long a trip lasted. I&rsquo;ll use the &ldquo;interlval operator&rdquo; (<code>%--%</code>) from the lubridate package to get these intervals.</p>
 <p>I&rsquo;ll also convert the distance to km and calculate the overall fare rate of each trip.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">uber_data <span style="color:#666">&lt;-</span> uber_data <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">mutate</span>(wait <span style="color:#666">=</span> request_time <span style="color:#666">%--%</span> begin_time <span style="color:#666">/</span> <span style="color:#06287e">dminutes</span>(<span style="color:#40a070">1</span>),
-         duration <span style="color:#666">=</span> begin_time <span style="color:#666">%--%</span> dropoff_time <span style="color:#666">/</span> <span style="color:#06287e">dminutes</span>(<span style="color:#40a070">1</span>),
-         distance <span style="color:#666">=</span> distance <span style="color:#666">*</span> <span style="color:#40a070">1.60934</span>,
-         rate <span style="color:#666">=</span> fare <span style="color:#666">/</span> distance)
-<span style="color:#06287e">str</span>(uber_data)
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## tibble [173 × 8] (S3: tbl_df/tbl/data.frame)
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">uber_data <span style="color:#5bc4bf">&lt;-</span> uber_data <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">mutate</span>(wait <span style="color:#5bc4bf">=</span> request_time <span style="color:#5bc4bf">%--%</span> begin_time <span style="color:#5bc4bf">/</span> <span style="color:#06b6ef">dminutes</span>(<span style="color:#f99b15">1</span>),
+         duration <span style="color:#5bc4bf">=</span> begin_time <span style="color:#5bc4bf">%--%</span> dropoff_time <span style="color:#5bc4bf">/</span> <span style="color:#06b6ef">dminutes</span>(<span style="color:#f99b15">1</span>),
+         distance <span style="color:#5bc4bf">=</span> distance <span style="color:#5bc4bf">*</span> <span style="color:#f99b15">1.60934</span>,
+         rate <span style="color:#5bc4bf">=</span> fare <span style="color:#5bc4bf">/</span> distance)
+<span style="color:#06b6ef">str</span>(uber_data)
+</code></pre></div><div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## tibble [173 × 8] (S3: tbl_df/tbl/data.frame)
 ##  $ request_time: POSIXct[1:173], format: &#34;2019-09-14 19:45:08&#34; &#34;2019-09-14 14:02:06&#34; ...
 ##  $ begin_time  : POSIXct[1:173], format: &#34;2019-09-14 19:52:08&#34; &#34;2019-09-14 14:06:36&#34; ...
 ##  $ dropoff_time: POSIXct[1:173], format: &#34;2019-09-14 20:00:35&#34; &#34;2019-09-14 14:10:24&#34; ...
@@ -246,75 +246,75 @@ dataset to POSIXct vectors. Remember that map functions give a list as output, s
 ##  $ rate        : num [1:173] 21.6 15.1 9.4 11.8 14.1 ...
 </code></pre></div><p>In the code above, I divided the intervals by 1 minute to get the output in minutes. The <code>dminutes()</code> is from the lubridate package as well.</p>
 <p>Let&rsquo;s look at the frequency distribution of my wait times between request and beginning of my trips.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p1 <span style="color:#666">&lt;-</span> uber_data <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">ggplot</span>(<span style="color:#06287e">aes</span>(wait)) <span style="color:#666">+</span>
-  <span style="color:#06287e">geom_histogram</span>(binwidth <span style="color:#666">=</span> <span style="color:#40a070">1</span>, fill <span style="color:#666">=</span> <span style="color:#4070a0">&#34;firebrick4&#34;</span>, alpha <span style="color:#666">=</span> <span style="color:#40a070">0.7</span>) <span style="color:#666">+</span>
-  <span style="color:#06287e">labs</span>(x <span style="color:#666">=</span> <span style="color:#4070a0">&#34;Wait time (min)&#34;</span>, y <span style="color:#666">=</span> <span style="color:#4070a0">&#34;Frequency&#34;</span>) <span style="color:#666">+</span>
-  <span style="color:#06287e">scale_x_continuous</span>(breaks <span style="color:#666">=</span> <span style="color:#06287e">seq</span>(<span style="color:#40a070">1</span>,<span style="color:#40a070">15</span>,<span style="color:#40a070">1</span>)) <span style="color:#666">+</span>
-  <span style="color:#06287e">theme_classic</span>()
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p1 <span style="color:#5bc4bf">&lt;-</span> uber_data <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">ggplot</span>(<span style="color:#06b6ef">aes</span>(wait)) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">geom_histogram</span>(binwidth <span style="color:#5bc4bf">=</span> <span style="color:#f99b15">1</span>, fill <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;firebrick4&#34;</span>, alpha <span style="color:#5bc4bf">=</span> <span style="color:#f99b15">0.7</span>) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">labs</span>(x <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;Wait time (min)&#34;</span>, y <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;Frequency&#34;</span>) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">scale_x_continuous</span>(breaks <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">seq</span>(<span style="color:#f99b15">1</span>,<span style="color:#f99b15">15</span>,<span style="color:#f99b15">1</span>)) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">theme_classic</span>()
 p1
 </code></pre></div><p><img src="/post/2020-11-24-dates-and-times-in-r-visualizing-my-uber-data_files/figure-html/Histogram-1.png" width="672" /></p>
 <p>It seems that most of the times I waited between 2 and 6 minutes. Once, I waited 15 minutes!</p>
 <p>I&rsquo;ll use tidyeval to create a function that allows me to create a scatter plot between the different variables of the dataset.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">get_label <span style="color:#666">&lt;-</span> <span style="color:#06287e">function</span>(x) {
-  x_var <span style="color:#666">&lt;-</span> rlang<span style="color:#666">::</span><span style="color:#06287e">as_name</span>(<span style="color:#06287e">enquo</span>(x))
-  <span style="color:#06287e">return</span>(<span style="color:#06287e">case_when</span>(x_var <span style="color:#666">==</span> <span style="color:#4070a0">&#34;distance&#34;</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;Distance (Km)&#34;</span>,
-                   x_var <span style="color:#666">==</span> <span style="color:#4070a0">&#34;duration&#34;</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;Duration (min)&#34;</span>,
-                   x_var <span style="color:#666">==</span> <span style="color:#4070a0">&#34;fare&#34;</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;Fare (MXN)&#34;</span>,
-                   x_var <span style="color:#666">==</span> <span style="color:#4070a0">&#34;rate&#34;</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;Fare Rate (MXN/Km)&#34;</span>,
-                   x_var <span style="color:#666">==</span> <span style="color:#4070a0">&#34;wait&#34;</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;Wait Time (min)&#34;</span>))
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">get_label <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">function</span>(x) {
+  x_var <span style="color:#5bc4bf">&lt;-</span> rlang<span style="color:#5bc4bf">::</span><span style="color:#06b6ef">as_name</span>(<span style="color:#06b6ef">enquo</span>(x))
+  <span style="color:#06b6ef">return</span>(<span style="color:#06b6ef">case_when</span>(x_var <span style="color:#5bc4bf">==</span> <span style="color:#48b685">&#34;distance&#34;</span> <span style="color:#5bc4bf">~</span> <span style="color:#48b685">&#34;Distance (Km)&#34;</span>,
+                   x_var <span style="color:#5bc4bf">==</span> <span style="color:#48b685">&#34;duration&#34;</span> <span style="color:#5bc4bf">~</span> <span style="color:#48b685">&#34;Duration (min)&#34;</span>,
+                   x_var <span style="color:#5bc4bf">==</span> <span style="color:#48b685">&#34;fare&#34;</span> <span style="color:#5bc4bf">~</span> <span style="color:#48b685">&#34;Fare (MXN)&#34;</span>,
+                   x_var <span style="color:#5bc4bf">==</span> <span style="color:#48b685">&#34;rate&#34;</span> <span style="color:#5bc4bf">~</span> <span style="color:#48b685">&#34;Fare Rate (MXN/Km)&#34;</span>,
+                   x_var <span style="color:#5bc4bf">==</span> <span style="color:#48b685">&#34;wait&#34;</span> <span style="color:#5bc4bf">~</span> <span style="color:#48b685">&#34;Wait Time (min)&#34;</span>))
 }
 
-make_scatter_plot <span style="color:#666">&lt;-</span> <span style="color:#06287e">function</span>(x, y) {
-  x_var <span style="color:#666">&lt;-</span> <span style="color:#06287e">enquo</span>(x)
-  y_var <span style="color:#666">&lt;-</span> <span style="color:#06287e">enquo</span>(y)
-  uber_data <span style="color:#666">%&gt;%</span> 
-    <span style="color:#06287e">ggplot</span>(<span style="color:#06287e">aes</span>(<span style="color:#666">!!</span>x_var, <span style="color:#666">!!</span>y_var)) <span style="color:#666">+</span>
-    <span style="color:#06287e">labs</span>(x <span style="color:#666">=</span> <span style="color:#06287e">get_label</span>(<span style="color:#666">!!</span>x_var), y <span style="color:#666">=</span> <span style="color:#06287e">get_label</span>(<span style="color:#666">!!</span>y_var)) <span style="color:#666">+</span>
-    <span style="color:#06287e">geom_smooth</span>() <span style="color:#666">+</span>
-    <span style="color:#06287e">geom_point</span>(size <span style="color:#666">=</span> <span style="color:#40a070">0.75</span>, color <span style="color:#666">=</span> <span style="color:#4070a0">&#34;firebrick4&#34;</span>) <span style="color:#666">+</span>
-    <span style="color:#06287e">theme_bw</span>()
+make_scatter_plot <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">function</span>(x, y) {
+  x_var <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">enquo</span>(x)
+  y_var <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">enquo</span>(y)
+  uber_data <span style="color:#5bc4bf">%&gt;%</span> 
+    <span style="color:#06b6ef">ggplot</span>(<span style="color:#06b6ef">aes</span>(<span style="color:#5bc4bf">!!</span>x_var, <span style="color:#5bc4bf">!!</span>y_var)) <span style="color:#5bc4bf">+</span>
+    <span style="color:#06b6ef">labs</span>(x <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">get_label</span>(<span style="color:#5bc4bf">!!</span>x_var), y <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">get_label</span>(<span style="color:#5bc4bf">!!</span>y_var)) <span style="color:#5bc4bf">+</span>
+    <span style="color:#06b6ef">geom_smooth</span>() <span style="color:#5bc4bf">+</span>
+    <span style="color:#06b6ef">geom_point</span>(size <span style="color:#5bc4bf">=</span> <span style="color:#f99b15">0.75</span>, color <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;firebrick4&#34;</span>) <span style="color:#5bc4bf">+</span>
+    <span style="color:#06b6ef">theme_bw</span>()
 }
 
-p2 <span style="color:#666">&lt;-</span> <span style="color:#06287e">make_scatter_plot</span>(duration, fare)
-p3 <span style="color:#666">&lt;-</span> <span style="color:#06287e">make_scatter_plot</span>(distance, fare)
-p4 <span style="color:#666">&lt;-</span> <span style="color:#06287e">make_scatter_plot</span>(distance, duration)
-p5 <span style="color:#666">&lt;-</span> <span style="color:#06287e">make_scatter_plot</span>(duration, rate)
+p2 <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">make_scatter_plot</span>(duration, fare)
+p3 <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">make_scatter_plot</span>(distance, fare)
+p4 <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">make_scatter_plot</span>(distance, duration)
+p5 <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">make_scatter_plot</span>(duration, rate)
 
-ggpubr<span style="color:#666">::</span><span style="color:#06287e">ggarrange</span>(p2, p3, p4, p5)
+ggpubr<span style="color:#5bc4bf">::</span><span style="color:#06b6ef">ggarrange</span>(p2, p3, p4, p5)
 </code></pre></div><p><img src="/post/2020-11-24-dates-and-times-in-r-visualizing-my-uber-data_files/figure-html/Scatter Plot-1.png" width="768" /></p>
 <p>Not suprisingly, longer trips were more expensive.</p>
 <h2 id="extracting-time-components-from-date-time-vectors">Extracting time components from date-time vectors</h2>
 <p>Individual datetime components can be extracted with lubridate. For example, here is a bar plot depicting the number of Uber rides I took per month (<code>lubridate::month()</code>) and year (<code>lubridate::year()</code>):</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">total_number_of_trips <span style="color:#666">&lt;-</span> <span style="color:#06287e">length</span>(uber_data<span style="color:#666">$</span>request_time)
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">total_number_of_trips <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">length</span>(uber_data<span style="color:#5bc4bf">$</span>request_time)
 
-p6 <span style="color:#666">&lt;-</span> uber_data <span style="color:#666">%&gt;%</span>
-  <span style="color:#06287e">group_by</span>(year <span style="color:#666">=</span> <span style="color:#06287e">year</span>(request_time),
-           month <span style="color:#666">=</span> <span style="color:#06287e">month</span>(request_time, label <span style="color:#666">=</span> <span style="color:#007020;font-weight:bold">TRUE</span>)
-           ) <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">summarise</span>(percent <span style="color:#666">=</span> <span style="color:#06287e">n</span>() <span style="color:#666">/</span> total_number_of_trips) <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">ungroup</span>() <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">ggplot</span>(<span style="color:#06287e">aes</span>(month, percent, fill <span style="color:#666">=</span> <span style="color:#06287e">factor</span>(year))) <span style="color:#666">+</span>
-  <span style="color:#06287e">geom_col</span>(<span style="color:#06287e">aes</span>(group <span style="color:#666">=</span> <span style="color:#06287e">factor</span>(year))) <span style="color:#666">+</span>
-  <span style="color:#06287e">facet_wrap</span>(. <span style="color:#666">~</span> <span style="color:#06287e">factor</span>(year), strip.position <span style="color:#666">=</span> <span style="color:#4070a0">&#34;top&#34;</span>) <span style="color:#666">+</span>
-  <span style="color:#06287e">labs</span>(x <span style="color:#666">=</span> <span style="color:#4070a0">&#34;Month&#34;</span>, y <span style="color:#666">=</span> <span style="color:#4070a0">&#34;Trips (%)&#34;</span>) <span style="color:#666">+</span>
-  <span style="color:#06287e">scale_y_continuous</span>(labels <span style="color:#666">=</span> scales<span style="color:#666">::</span>percent) <span style="color:#666">+</span>
-  <span style="color:#06287e">scale_fill_viridis_d</span>(option <span style="color:#666">=</span> <span style="color:#4070a0">&#34;E&#34;</span>) <span style="color:#666">+</span>
-  <span style="color:#06287e">guides</span>(fill <span style="color:#666">=</span> <span style="color:#06287e">guide_legend</span>(title <span style="color:#666">=</span> <span style="color:#4070a0">&#34;Year&#34;</span>)) <span style="color:#666">+</span>
-  <span style="color:#06287e">theme</span>(panel.grid.major.x <span style="color:#666">=</span>  <span style="color:#06287e">element_blank</span>())
+p6 <span style="color:#5bc4bf">&lt;-</span> uber_data <span style="color:#5bc4bf">%&gt;%</span>
+  <span style="color:#06b6ef">group_by</span>(year <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">year</span>(request_time),
+           month <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">month</span>(request_time, label <span style="color:#5bc4bf">=</span> <span style="color:#815ba4">TRUE</span>)
+           ) <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">summarise</span>(percent <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">n</span>() <span style="color:#5bc4bf">/</span> total_number_of_trips) <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">ungroup</span>() <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">ggplot</span>(<span style="color:#06b6ef">aes</span>(month, percent, fill <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">factor</span>(year))) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">geom_col</span>(<span style="color:#06b6ef">aes</span>(group <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">factor</span>(year))) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">facet_wrap</span>(. <span style="color:#5bc4bf">~</span> <span style="color:#06b6ef">factor</span>(year), strip.position <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;top&#34;</span>) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">labs</span>(x <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;Month&#34;</span>, y <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;Trips (%)&#34;</span>) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">scale_y_continuous</span>(labels <span style="color:#5bc4bf">=</span> scales<span style="color:#5bc4bf">::</span>percent) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">scale_fill_viridis_d</span>(option <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;E&#34;</span>) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">guides</span>(fill <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">guide_legend</span>(title <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;Year&#34;</span>)) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">theme</span>(panel.grid.major.x <span style="color:#5bc4bf">=</span>  <span style="color:#06b6ef">element_blank</span>())
 p6
 </code></pre></div><p><img src="/post/2020-11-24-dates-and-times-in-r-visualizing-my-uber-data_files/figure-html/Bar Plot-1.png" width="720" /></p>
 <p>And, here is a heatmap about the number of trips I took per day of the week (<code>lubridate::wday()</code>) and hour (<code>lubridate::hour</code>):</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p7 <span style="color:#666">&lt;-</span> uber_data <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">count</span>(day <span style="color:#666">=</span> <span style="color:#06287e">wday</span>(request_time, label <span style="color:#666">=</span> <span style="color:#007020;font-weight:bold">TRUE</span>),
-        hour <span style="color:#666">=</span> <span style="color:#06287e">hour</span>(request_time),
-        name <span style="color:#666">=</span> <span style="color:#4070a0">&#34;Count&#34;</span>) <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">filter</span>(<span style="color:#06287e">between</span>(hour, <span style="color:#40a070">12</span>, <span style="color:#40a070">21</span>)) <span style="color:#666">%&gt;%</span>
-  <span style="color:#06287e">ggplot</span>() <span style="color:#666">+</span>
-  <span style="color:#06287e">geom_tile</span>(<span style="color:#06287e">aes</span>(x <span style="color:#666">=</span> day, y <span style="color:#666">=</span> <span style="color:#06287e">factor</span>(hour), fill <span style="color:#666">=</span> Count)) <span style="color:#666">+</span>
-  <span style="color:#06287e">labs</span>(x <span style="color:#666">=</span> <span style="color:#4070a0">&#34;Day&#34;</span>, y <span style="color:#666">=</span> <span style="color:#4070a0">&#34;Hour (24 h)&#34;</span>) <span style="color:#666">+</span>
-  <span style="color:#06287e">guides</span>(fill <span style="color:#666">=</span> <span style="color:#06287e">guide_colorbar</span>(title <span style="color:#666">=</span> <span style="color:#4070a0">&#34;Count&#34;</span>)) <span style="color:#666">+</span>
-  <span style="color:#06287e">theme_classic</span>()
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p7 <span style="color:#5bc4bf">&lt;-</span> uber_data <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">count</span>(day <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">wday</span>(request_time, label <span style="color:#5bc4bf">=</span> <span style="color:#815ba4">TRUE</span>),
+        hour <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">hour</span>(request_time),
+        name <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;Count&#34;</span>) <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">filter</span>(<span style="color:#06b6ef">between</span>(hour, <span style="color:#f99b15">12</span>, <span style="color:#f99b15">21</span>)) <span style="color:#5bc4bf">%&gt;%</span>
+  <span style="color:#06b6ef">ggplot</span>() <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">geom_tile</span>(<span style="color:#06b6ef">aes</span>(x <span style="color:#5bc4bf">=</span> day, y <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">factor</span>(hour), fill <span style="color:#5bc4bf">=</span> Count)) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">labs</span>(x <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;Day&#34;</span>, y <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;Hour (24 h)&#34;</span>) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">guides</span>(fill <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">guide_colorbar</span>(title <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;Count&#34;</span>)) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">theme_classic</span>()
 p7
 </code></pre></div><p><img src="/post/2020-11-24-dates-and-times-in-r-visualizing-my-uber-data_files/figure-html/Heatmap-1.png" width="480" /></p>
 <p>I made a lot of Uber requests between the 17:00 and 18:00 hours on Fridays. I used to have appointments with my nutritionist at 18:00 on Fridays, I suppose that’s what’s reflected on the heatmap plot.</p>
@@ -327,9 +327,9 @@ p7
 </ul>
 <hr>
 <p>This post was updated on November 26, 2020.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">info <span style="color:#666">&lt;-</span> <span style="color:#06287e">sessionInfo</span>()
-<span style="color:#06287e">toLatex</span>(info, locale <span style="color:#666">=</span> <span style="color:#007020;font-weight:bold">FALSE</span>)
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## \begin{itemize}\raggedright
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">info <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">sessionInfo</span>()
+<span style="color:#06b6ef">toLatex</span>(info, locale <span style="color:#5bc4bf">=</span> <span style="color:#815ba4">FALSE</span>)
+</code></pre></div><div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## \begin{itemize}\raggedright
 ##   \item R version 4.0.3 (2020-10-10), \verb|x86_64-pc-linux-gnu|
 ##   \item Running under: \verb|Ubuntu 20.04.1 LTS|
 ##   \item Matrix products: default
@@ -387,7 +387,7 @@ p7
 		</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>© Samuel David Gamboa-Tuz, 2019-2020 <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+		<div>© Samuel David Gamboa-Tuz, 2019-2021 <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 

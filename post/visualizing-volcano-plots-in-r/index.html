@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic|Raleway:200,300" rel="stylesheet">
 
 	<link rel="stylesheet" type="text/css" media="screen" href="/css/normalize.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" /><link rel="stylesheet" type="text/css" href="/css/dark.css"  />
 
 	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 	<script src="/js/main.js"></script>
@@ -72,28 +72,28 @@
 <h2 id="r-packages-and-data">R packages and data</h2>
 <p>In addition to the tidyverse package, I&rsquo;ll load the <strong>ggrepel</strong> package to aid in the labeling of the genes. The example data comes from a <a href="https://doi.org/10.1038/s41598-018-32904-2">research article</a> and can be downloaded <a href="https://raw.githubusercontent.com/sdgamboa/misc_datasets/master/L0_vs_L20.tsv">here</a>.</p>
 <p>Let&rsquo;s load the packages and import the data:</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#60a0b0;font-style:italic"># The packages can be installed within R with:</span>
-<span style="color:#60a0b0;font-style:italic"># intstall.packages(c(&#34;tidyverse&#34;, &#34;ggrepel&#34;))</span>
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#776e71"># The packages can be installed within R with:</span>
+<span style="color:#776e71"># intstall.packages(c(&#34;tidyverse&#34;, &#34;ggrepel&#34;))</span>
 
-<span style="color:#60a0b0;font-style:italic"># Load packages</span>
-<span style="color:#06287e">library</span>(tidyverse)
-<span style="color:#06287e">library</span>(ggrepel)
+<span style="color:#776e71"># Load packages</span>
+<span style="color:#06b6ef">library</span>(tidyverse)
+<span style="color:#06b6ef">library</span>(ggrepel)
 
-<span style="color:#60a0b0;font-style:italic"># A short function for outputting the tables</span>
-knitr_table <span style="color:#666">&lt;-</span> <span style="color:#06287e">function</span>(x) {
-  x <span style="color:#666">%&gt;%</span> 
-    knitr<span style="color:#666">::</span><span style="color:#06287e">kable</span>(format <span style="color:#666">=</span> <span style="color:#4070a0">&#34;html&#34;</span>, digits <span style="color:#666">=</span> <span style="color:#007020;font-weight:bold">Inf</span>, 
-                 format.args <span style="color:#666">=</span> <span style="color:#06287e">list</span>(big.mark <span style="color:#666">=</span> <span style="color:#4070a0">&#34;,&#34;</span>)) <span style="color:#666">%&gt;%</span>
-    kableExtra<span style="color:#666">::</span><span style="color:#06287e">kable_styling</span>(font_size <span style="color:#666">=</span> <span style="color:#40a070">15</span>)
+<span style="color:#776e71"># A short function for outputting the tables</span>
+knitr_table <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">function</span>(x) {
+  x <span style="color:#5bc4bf">%&gt;%</span> 
+    knitr<span style="color:#5bc4bf">::</span><span style="color:#06b6ef">kable</span>(format <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;html&#34;</span>, digits <span style="color:#5bc4bf">=</span> <span style="color:#815ba4">Inf</span>, 
+                 format.args <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">list</span>(big.mark <span style="color:#5bc4bf">=</span> <span style="color:#48b685">&#34;,&#34;</span>)) <span style="color:#5bc4bf">%&gt;%</span>
+    kableExtra<span style="color:#5bc4bf">::</span><span style="color:#06b6ef">kable_styling</span>(font_size <span style="color:#5bc4bf">=</span> <span style="color:#f99b15">15</span>)
 }
 
 
-<span style="color:#60a0b0;font-style:italic"># Import data</span>
-data <span style="color:#666">&lt;-</span> <span style="color:#06287e">read_tsv</span>(<span style="color:#4070a0">&#34;https://raw.githubusercontent.com/sdgamboa/misc_datasets/master/L0_vs_L20.tsv&#34;</span>)
-<span style="color:#06287e">dim</span>(data)
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## [1] 20945     4
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#06287e">head</span>(data) <span style="color:#666">%&gt;%</span> 
- <span style="color:#06287e">knitr_table</span>()
+<span style="color:#776e71"># Import data</span>
+data <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">read_tsv</span>(<span style="color:#48b685">&#34;https://raw.githubusercontent.com/sdgamboa/misc_datasets/master/L0_vs_L20.tsv&#34;</span>)
+<span style="color:#06b6ef">dim</span>(data)
+</code></pre></div><div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## [1] 20945     4
+</code></pre></div><div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#06b6ef">head</span>(data) <span style="color:#5bc4bf">%&gt;%</span> 
+ <span style="color:#06b6ef">knitr_table</span>()
 </code></pre></div><table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -145,23 +145,23 @@ data <span style="color:#666">&lt;-</span> <span style="color:#06287e">read_tsv<
 <p>The data contains four columns and 20,945 rows. Each row represents a gene. The column &lsquo;Genes&rsquo; contains the sequence names of each gene. The &lsquo;logFC&rsquo; column contains the logarithm base 2 (log2) of the fold change of each gene; up-regulated genes are positive, down-regulated genes are negative. The &lsquo;PValue&rsquo; and &lsquo;FDR&rsquo; columns contain the significance values; these must be converted to the negative of their logarithm base 10 before plotting, i.e -log10(p-value) or -log10(FDR). I&rsquo;ll use the -log10(FDR) in this post.</p>
 <h2 id="a-simple-volcano-plot">A simple volcano plot</h2>
 <p>Since volacno plots are scatter plots, we can use <code>geom_point()</code> to generate one with ggplot2. The conversion of the FDR values to their -log10 can be done at this step:</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p1 <span style="color:#666">&lt;-</span> <span style="color:#06287e">ggplot</span>(data, <span style="color:#06287e">aes</span>(logFC, <span style="color:#666">-</span><span style="color:#06287e">log</span>(FDR,<span style="color:#40a070">10</span>))) <span style="color:#666">+</span> <span style="color:#60a0b0;font-style:italic"># -log10 conversion  </span>
-  <span style="color:#06287e">geom_point</span>(size <span style="color:#666">=</span> <span style="color:#40a070">2</span><span style="color:#666">/</span><span style="color:#40a070">5</span>) <span style="color:#666">+</span>
-  <span style="color:#06287e">xlab</span>(<span style="color:#06287e">expression</span>(<span style="color:#4070a0">&#34;log&#34;</span>[2]<span style="color:#666">*</span><span style="color:#4070a0">&#34;FC&#34;</span>)) <span style="color:#666">+</span> 
-  <span style="color:#06287e">ylab</span>(<span style="color:#06287e">expression</span>(<span style="color:#4070a0">&#34;-log&#34;</span>[10]<span style="color:#666">*</span><span style="color:#4070a0">&#34;FDR&#34;</span>))
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p1 <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">ggplot</span>(data, <span style="color:#06b6ef">aes</span>(logFC, <span style="color:#5bc4bf">-</span><span style="color:#06b6ef">log</span>(FDR,<span style="color:#f99b15">10</span>))) <span style="color:#5bc4bf">+</span> <span style="color:#776e71"># -log10 conversion  </span>
+  <span style="color:#06b6ef">geom_point</span>(size <span style="color:#5bc4bf">=</span> <span style="color:#f99b15">2</span><span style="color:#5bc4bf">/</span><span style="color:#f99b15">5</span>) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">xlab</span>(<span style="color:#06b6ef">expression</span>(<span style="color:#48b685">&#34;log&#34;</span>[2]<span style="color:#5bc4bf">*</span><span style="color:#48b685">&#34;FC&#34;</span>)) <span style="color:#5bc4bf">+</span> 
+  <span style="color:#06b6ef">ylab</span>(<span style="color:#06b6ef">expression</span>(<span style="color:#48b685">&#34;-log&#34;</span>[10]<span style="color:#5bc4bf">*</span><span style="color:#48b685">&#34;FDR&#34;</span>))
 p1
 </code></pre></div><p><img src="/post/2020-08-09-visualizing-volcano-plots-in-r_files/figure-html/plot 1-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>The dispersion of the points (representing genes) in the plot is similar to, you guessed, a volcano (that&rsquo;s why they&rsquo;re called volcano plots). Since the FDR values were transformed to their -log10, the higher the position of a point, the more significant its value is (y axis). Points with positive fold change values (to the right) are up-regulated and points with negative fold change values (to the left) are down-regulated (x axis).</p>
 <h2 id="adding-color-to-differentially-expressed-genes-degs">Adding color to differentially expressed genes (DEGs)</h2>
 <p>Differentially expressed genes (DEGs) are usally considered as those with an absolute fold change greater or equal to 2 and a FDR value of 0.05 or less. So, we can make our volcano plot a bit more informative if we add some color to the DEGs in the plot. To do so, we&rsquo;ll add an additional column, named &lsquo;Expression&rsquo;, indicating whether the expression of a gene is up-regulated, down-regulated, or unchanged:</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#666">&lt;-</span> data <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">mutate</span>(
-    Expression <span style="color:#666">=</span> <span style="color:#06287e">case_when</span>(logFC <span style="color:#666">&gt;=</span> <span style="color:#06287e">log</span>(<span style="color:#40a070">2</span>) <span style="color:#666">&amp;</span> FDR <span style="color:#666">&lt;=</span> <span style="color:#40a070">0.05</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;Up-regulated&#34;</span>,
-                           logFC <span style="color:#666">&lt;=</span> <span style="color:#666">-</span><span style="color:#06287e">log</span>(<span style="color:#40a070">2</span>) <span style="color:#666">&amp;</span> FDR <span style="color:#666">&lt;=</span> <span style="color:#40a070">0.05</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;Down-regulated&#34;</span>,
-                           <span style="color:#007020;font-weight:bold">TRUE</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;Unchanged&#34;</span>)
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#5bc4bf">&lt;-</span> data <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">mutate</span>(
+    Expression <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">case_when</span>(logFC <span style="color:#5bc4bf">&gt;=</span> <span style="color:#06b6ef">log</span>(<span style="color:#f99b15">2</span>) <span style="color:#5bc4bf">&amp;</span> FDR <span style="color:#5bc4bf">&lt;=</span> <span style="color:#f99b15">0.05</span> <span style="color:#5bc4bf">~</span> <span style="color:#48b685">&#34;Up-regulated&#34;</span>,
+                           logFC <span style="color:#5bc4bf">&lt;=</span> <span style="color:#5bc4bf">-</span><span style="color:#06b6ef">log</span>(<span style="color:#f99b15">2</span>) <span style="color:#5bc4bf">&amp;</span> FDR <span style="color:#5bc4bf">&lt;=</span> <span style="color:#f99b15">0.05</span> <span style="color:#5bc4bf">~</span> <span style="color:#48b685">&#34;Down-regulated&#34;</span>,
+                           <span style="color:#815ba4">TRUE</span> <span style="color:#5bc4bf">~</span> <span style="color:#48b685">&#34;Unchanged&#34;</span>)
     )
-<span style="color:#06287e">head</span>(data) <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">knitr_table</span>()
+<span style="color:#06b6ef">head</span>(data) <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">knitr_table</span>()
 </code></pre></div><table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -218,18 +218,18 @@ p1
 </tbody>
 </table>
 <p>We can now map the column ´Expression&rsquo; to the color aesthetic of <code>geom_point()</code> and color the points according to their expression classification:</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p2 <span style="color:#666">&lt;-</span> <span style="color:#06287e">ggplot</span>(data, <span style="color:#06287e">aes</span>(logFC, <span style="color:#666">-</span><span style="color:#06287e">log</span>(FDR,<span style="color:#40a070">10</span>))) <span style="color:#666">+</span>
-  <span style="color:#06287e">geom_point</span>(<span style="color:#06287e">aes</span>(color <span style="color:#666">=</span> Expression), size <span style="color:#666">=</span> <span style="color:#40a070">2</span><span style="color:#666">/</span><span style="color:#40a070">5</span>) <span style="color:#666">+</span>
-  <span style="color:#06287e">xlab</span>(<span style="color:#06287e">expression</span>(<span style="color:#4070a0">&#34;log&#34;</span>[2]<span style="color:#666">*</span><span style="color:#4070a0">&#34;FC&#34;</span>)) <span style="color:#666">+</span> 
-  <span style="color:#06287e">ylab</span>(<span style="color:#06287e">expression</span>(<span style="color:#4070a0">&#34;-log&#34;</span>[10]<span style="color:#666">*</span><span style="color:#4070a0">&#34;FDR&#34;</span>)) <span style="color:#666">+</span>
-  <span style="color:#06287e">scale_color_manual</span>(values <span style="color:#666">=</span> <span style="color:#06287e">c</span>(<span style="color:#4070a0">&#34;dodgerblue3&#34;</span>, <span style="color:#4070a0">&#34;gray50&#34;</span>, <span style="color:#4070a0">&#34;firebrick3&#34;</span>)) <span style="color:#666">+</span>
-  <span style="color:#06287e">guides</span>(colour <span style="color:#666">=</span> <span style="color:#06287e">guide_legend</span>(override.aes <span style="color:#666">=</span> <span style="color:#06287e">list</span>(size<span style="color:#666">=</span><span style="color:#40a070">1.5</span>))) 
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p2 <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">ggplot</span>(data, <span style="color:#06b6ef">aes</span>(logFC, <span style="color:#5bc4bf">-</span><span style="color:#06b6ef">log</span>(FDR,<span style="color:#f99b15">10</span>))) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">geom_point</span>(<span style="color:#06b6ef">aes</span>(color <span style="color:#5bc4bf">=</span> Expression), size <span style="color:#5bc4bf">=</span> <span style="color:#f99b15">2</span><span style="color:#5bc4bf">/</span><span style="color:#f99b15">5</span>) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">xlab</span>(<span style="color:#06b6ef">expression</span>(<span style="color:#48b685">&#34;log&#34;</span>[2]<span style="color:#5bc4bf">*</span><span style="color:#48b685">&#34;FC&#34;</span>)) <span style="color:#5bc4bf">+</span> 
+  <span style="color:#06b6ef">ylab</span>(<span style="color:#06b6ef">expression</span>(<span style="color:#48b685">&#34;-log&#34;</span>[10]<span style="color:#5bc4bf">*</span><span style="color:#48b685">&#34;FDR&#34;</span>)) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">scale_color_manual</span>(values <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">c</span>(<span style="color:#48b685">&#34;dodgerblue3&#34;</span>, <span style="color:#48b685">&#34;gray50&#34;</span>, <span style="color:#48b685">&#34;firebrick3&#34;</span>)) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">guides</span>(colour <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">guide_legend</span>(override.aes <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">list</span>(size<span style="color:#5bc4bf">=</span><span style="color:#f99b15">1.5</span>))) 
 p2
 </code></pre></div><p><img src="/post/2020-08-09-visualizing-volcano-plots-in-r_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>If we want to know how many genes are up- or down-regulated, or unchanged, we can use dplyr&rsquo;s <code>count()</code> function.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">count</span>(Expression) <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">knitr_table</span>()
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">count</span>(Expression) <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">knitr_table</span>()
 </code></pre></div><table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -253,16 +253,16 @@ p2
 </tbody>
 </table>
 <p>Since we already know that the genes towards the right are up-regulated and the genes towards the left are down-regulated, it would be more informative if we colored the points according to their significance level instead. Let&rsquo;s create another column, named &lsquo;Significance&rsquo;, and classify the genes according to significance thresholds (0.05, 0.01, and 0.001):</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#666">&lt;-</span> data <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">mutate</span>(
-    Significance <span style="color:#666">=</span> <span style="color:#06287e">case_when</span>(
-      <span style="color:#06287e">abs</span>(logFC) <span style="color:#666">&gt;=</span> <span style="color:#06287e">log</span>(<span style="color:#40a070">2</span>) <span style="color:#666">&amp;</span> FDR <span style="color:#666">&lt;=</span> <span style="color:#40a070">0.05</span> <span style="color:#666">&amp;</span> FDR <span style="color:#666">&gt;</span> <span style="color:#40a070">0.01</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;FDR 0.05&#34;</span>, 
-      <span style="color:#06287e">abs</span>(logFC) <span style="color:#666">&gt;=</span> <span style="color:#06287e">log</span>(<span style="color:#40a070">2</span>) <span style="color:#666">&amp;</span> FDR <span style="color:#666">&lt;=</span> <span style="color:#40a070">0.01</span> <span style="color:#666">&amp;</span> FDR <span style="color:#666">&gt;</span> <span style="color:#40a070">0.001</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;FDR 0.01&#34;</span>,
-      <span style="color:#06287e">abs</span>(logFC) <span style="color:#666">&gt;=</span> <span style="color:#06287e">log</span>(<span style="color:#40a070">2</span>) <span style="color:#666">&amp;</span> FDR <span style="color:#666">&lt;=</span> <span style="color:#40a070">0.001</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;FDR 0.001&#34;</span>, 
-      <span style="color:#007020;font-weight:bold">TRUE</span> <span style="color:#666">~</span> <span style="color:#4070a0">&#34;Unchanged&#34;</span>)
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#5bc4bf">&lt;-</span> data <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">mutate</span>(
+    Significance <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">case_when</span>(
+      <span style="color:#06b6ef">abs</span>(logFC) <span style="color:#5bc4bf">&gt;=</span> <span style="color:#06b6ef">log</span>(<span style="color:#f99b15">2</span>) <span style="color:#5bc4bf">&amp;</span> FDR <span style="color:#5bc4bf">&lt;=</span> <span style="color:#f99b15">0.05</span> <span style="color:#5bc4bf">&amp;</span> FDR <span style="color:#5bc4bf">&gt;</span> <span style="color:#f99b15">0.01</span> <span style="color:#5bc4bf">~</span> <span style="color:#48b685">&#34;FDR 0.05&#34;</span>, 
+      <span style="color:#06b6ef">abs</span>(logFC) <span style="color:#5bc4bf">&gt;=</span> <span style="color:#06b6ef">log</span>(<span style="color:#f99b15">2</span>) <span style="color:#5bc4bf">&amp;</span> FDR <span style="color:#5bc4bf">&lt;=</span> <span style="color:#f99b15">0.01</span> <span style="color:#5bc4bf">&amp;</span> FDR <span style="color:#5bc4bf">&gt;</span> <span style="color:#f99b15">0.001</span> <span style="color:#5bc4bf">~</span> <span style="color:#48b685">&#34;FDR 0.01&#34;</span>,
+      <span style="color:#06b6ef">abs</span>(logFC) <span style="color:#5bc4bf">&gt;=</span> <span style="color:#06b6ef">log</span>(<span style="color:#f99b15">2</span>) <span style="color:#5bc4bf">&amp;</span> FDR <span style="color:#5bc4bf">&lt;=</span> <span style="color:#f99b15">0.001</span> <span style="color:#5bc4bf">~</span> <span style="color:#48b685">&#34;FDR 0.001&#34;</span>, 
+      <span style="color:#815ba4">TRUE</span> <span style="color:#5bc4bf">~</span> <span style="color:#48b685">&#34;Unchanged&#34;</span>)
   )
-<span style="color:#06287e">head</span>(data) <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">knitr_table</span>()
+<span style="color:#06b6ef">head</span>(data) <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">knitr_table</span>()
 </code></pre></div><table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -326,19 +326,19 @@ p2
 </tbody>
 </table>
 <p>Again, we can use the color aesthetic to map the color of the points to their corresponding significance thresholds:</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p3 <span style="color:#666">&lt;-</span> <span style="color:#06287e">ggplot</span>(data, <span style="color:#06287e">aes</span>(logFC, <span style="color:#666">-</span><span style="color:#06287e">log</span>(FDR,<span style="color:#40a070">10</span>))) <span style="color:#666">+</span>
-  <span style="color:#06287e">geom_point</span>(<span style="color:#06287e">aes</span>(color <span style="color:#666">=</span> Significance), size <span style="color:#666">=</span> <span style="color:#40a070">2</span><span style="color:#666">/</span><span style="color:#40a070">5</span>) <span style="color:#666">+</span>
-  <span style="color:#06287e">xlab</span>(<span style="color:#06287e">expression</span>(<span style="color:#4070a0">&#34;log&#34;</span>[2]<span style="color:#666">*</span><span style="color:#4070a0">&#34;FC&#34;</span>)) <span style="color:#666">+</span> 
-  <span style="color:#06287e">ylab</span>(<span style="color:#06287e">expression</span>(<span style="color:#4070a0">&#34;-log&#34;</span>[10]<span style="color:#666">*</span><span style="color:#4070a0">&#34;FDR&#34;</span>)) <span style="color:#666">+</span>
-  <span style="color:#06287e">scale_color_viridis_d</span>() <span style="color:#666">+</span>
-  <span style="color:#06287e">guides</span>(colour <span style="color:#666">=</span> <span style="color:#06287e">guide_legend</span>(override.aes <span style="color:#666">=</span> <span style="color:#06287e">list</span>(size<span style="color:#666">=</span><span style="color:#40a070">1.5</span>))) 
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p3 <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">ggplot</span>(data, <span style="color:#06b6ef">aes</span>(logFC, <span style="color:#5bc4bf">-</span><span style="color:#06b6ef">log</span>(FDR,<span style="color:#f99b15">10</span>))) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">geom_point</span>(<span style="color:#06b6ef">aes</span>(color <span style="color:#5bc4bf">=</span> Significance), size <span style="color:#5bc4bf">=</span> <span style="color:#f99b15">2</span><span style="color:#5bc4bf">/</span><span style="color:#f99b15">5</span>) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">xlab</span>(<span style="color:#06b6ef">expression</span>(<span style="color:#48b685">&#34;log&#34;</span>[2]<span style="color:#5bc4bf">*</span><span style="color:#48b685">&#34;FC&#34;</span>)) <span style="color:#5bc4bf">+</span> 
+  <span style="color:#06b6ef">ylab</span>(<span style="color:#06b6ef">expression</span>(<span style="color:#48b685">&#34;-log&#34;</span>[10]<span style="color:#5bc4bf">*</span><span style="color:#48b685">&#34;FDR&#34;</span>)) <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">scale_color_viridis_d</span>() <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">guides</span>(colour <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">guide_legend</span>(override.aes <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">list</span>(size<span style="color:#5bc4bf">=</span><span style="color:#f99b15">1.5</span>))) 
 
 p3
 </code></pre></div><p><img src="/post/2020-08-09-visualizing-volcano-plots-in-r_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>And we can count how many genes are up- or down-regulated according to the different significance thresholds with <code>count()</code>:</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">count</span>(Expression, Significance) <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">knitr_table</span>()
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">data <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">count</span>(Expression, Significance) <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">knitr_table</span>()
 </code></pre></div><table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -387,19 +387,19 @@ p3
 </table>
 <h2 id="adding-labels-to-selected-genes">Adding labels to selected genes</h2>
 <p>If we labeled all of the genes, we&rsquo;d end up with a plot with overcrowded labels that wouldn&rsquo;t be possible to read. So, we could opt for labeling only the top n genes or a specific subset of them. For example:</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">top <span style="color:#666">&lt;-</span> <span style="color:#40a070">10</span>
-top_genes <span style="color:#666">&lt;-</span> <span style="color:#06287e">bind_rows</span>(
-  data <span style="color:#666">%&gt;%</span> 
-    <span style="color:#06287e">filter</span>(Expression <span style="color:#666">==</span> <span style="color:#4070a0">&#39;Up-regulated&#39;</span>) <span style="color:#666">%&gt;%</span> 
-    <span style="color:#06287e">arrange</span>(FDR, <span style="color:#06287e">desc</span>(<span style="color:#06287e">abs</span>(logFC))) <span style="color:#666">%&gt;%</span> 
-    <span style="color:#06287e">head</span>(top),
-  data <span style="color:#666">%&gt;%</span> 
-    <span style="color:#06287e">filter</span>(Expression <span style="color:#666">==</span> <span style="color:#4070a0">&#39;Down-regulated&#39;</span>) <span style="color:#666">%&gt;%</span> 
-    <span style="color:#06287e">arrange</span>(FDR, <span style="color:#06287e">desc</span>(<span style="color:#06287e">abs</span>(logFC))) <span style="color:#666">%&gt;%</span> 
-    <span style="color:#06287e">head</span>(top)
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">top <span style="color:#5bc4bf">&lt;-</span> <span style="color:#f99b15">10</span>
+top_genes <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">bind_rows</span>(
+  data <span style="color:#5bc4bf">%&gt;%</span> 
+    <span style="color:#06b6ef">filter</span>(Expression <span style="color:#5bc4bf">==</span> <span style="color:#48b685">&#39;Up-regulated&#39;</span>) <span style="color:#5bc4bf">%&gt;%</span> 
+    <span style="color:#06b6ef">arrange</span>(FDR, <span style="color:#06b6ef">desc</span>(<span style="color:#06b6ef">abs</span>(logFC))) <span style="color:#5bc4bf">%&gt;%</span> 
+    <span style="color:#06b6ef">head</span>(top),
+  data <span style="color:#5bc4bf">%&gt;%</span> 
+    <span style="color:#06b6ef">filter</span>(Expression <span style="color:#5bc4bf">==</span> <span style="color:#48b685">&#39;Down-regulated&#39;</span>) <span style="color:#5bc4bf">%&gt;%</span> 
+    <span style="color:#06b6ef">arrange</span>(FDR, <span style="color:#06b6ef">desc</span>(<span style="color:#06b6ef">abs</span>(logFC))) <span style="color:#5bc4bf">%&gt;%</span> 
+    <span style="color:#06b6ef">head</span>(top)
 )
-top_genes <span style="color:#666">%&gt;%</span> 
-  <span style="color:#06287e">knitr_table</span>()
+top_genes <span style="color:#5bc4bf">%&gt;%</span> 
+  <span style="color:#06b6ef">knitr_table</span>()
 </code></pre></div><table class="table" style="font-size: 15px; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -574,19 +574,19 @@ top_genes <span style="color:#666">%&gt;%</span>
   </tr>
 </tbody>
 </table>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p3 <span style="color:#666">&lt;-</span>  p3 <span style="color:#666">+</span>
-  <span style="color:#06287e">geom_label_repel</span>(data <span style="color:#666">=</span> top_genes,
-                   mapping <span style="color:#666">=</span> <span style="color:#06287e">aes</span>(logFC, <span style="color:#666">-</span><span style="color:#06287e">log</span>(FDR,<span style="color:#40a070">10</span>), label <span style="color:#666">=</span> Genes),
-                   size <span style="color:#666">=</span> <span style="color:#40a070">2</span>)
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">p3 <span style="color:#5bc4bf">&lt;-</span>  p3 <span style="color:#5bc4bf">+</span>
+  <span style="color:#06b6ef">geom_label_repel</span>(data <span style="color:#5bc4bf">=</span> top_genes,
+                   mapping <span style="color:#5bc4bf">=</span> <span style="color:#06b6ef">aes</span>(logFC, <span style="color:#5bc4bf">-</span><span style="color:#06b6ef">log</span>(FDR,<span style="color:#f99b15">10</span>), label <span style="color:#5bc4bf">=</span> Genes),
+                   size <span style="color:#5bc4bf">=</span> <span style="color:#f99b15">2</span>)
 p3
 </code></pre></div><p><img src="/post/2020-08-09-visualizing-volcano-plots-in-r_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>So, only the top 10 up- and down-regulated genes are labeled, avoiding overcrowding.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>In this post we applied two different color schemes on a volcano plot and labeled a few genes using tools from the tidyverse.</p>
 <h2 id="session-info">Session info</h2>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">info <span style="color:#666">&lt;-</span> <span style="color:#06287e">sessionInfo</span>()
-<span style="color:#06287e">toLatex</span>(info, locale <span style="color:#666">=</span> <span style="color:#007020;font-weight:bold">FALSE</span>)
-</code></pre></div><div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## \begin{itemize}\raggedright
+<div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">info <span style="color:#5bc4bf">&lt;-</span> <span style="color:#06b6ef">sessionInfo</span>()
+<span style="color:#06b6ef">toLatex</span>(info, locale <span style="color:#5bc4bf">=</span> <span style="color:#815ba4">FALSE</span>)
+</code></pre></div><div class="highlight"><pre style="color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">## \begin{itemize}\raggedright
 ##   \item R version 4.0.3 (2020-10-10), \verb|x86_64-pc-linux-gnu|
 ##   \item Running under: \verb|Ubuntu 20.04.1 LTS|
 ##   \item Matrix products: default
@@ -643,7 +643,7 @@ p3
 		</div>
 	<div class="footer wrapper">
 	<nav class="nav">
-		<div>© Samuel David Gamboa-Tuz, 2019-2020 <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
+		<div>© Samuel David Gamboa-Tuz, 2019-2021 <a href="https://github.com/vividvilla/ezhil">Ezhil theme</a> | Built with <a href="https://gohugo.io">Hugo</a></div>
 	</nav>
 </div>
 
