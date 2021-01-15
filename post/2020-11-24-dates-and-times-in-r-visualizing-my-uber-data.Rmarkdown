@@ -64,7 +64,7 @@ The dataset has nine columns:
 | ----------- | ----------- |
 | City | The city where the ride was requested (Merida or Mexico City). |
 | Product Type | Type of servide: Uberx or uberX. They're both the same. |
-| Trip or Order status | Whether the trip was canceled, completed or canceled by driver. |
+| Trip or Order status | Whether the trip was canceled, completed, or canceled by driver. |
 | Request Time | Date and time when the trip was requested in UTC. |
 | Begin Trip Time | Date and time when the trip started in UTC. |
 | Dropoff Time | Date and time when the trip finished in UTC. |
